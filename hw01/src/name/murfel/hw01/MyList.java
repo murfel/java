@@ -1,23 +1,28 @@
 package name.murfel.hw01;
 
+/**
+ * MyList implement a singly linked list data structure with MyElement objects as node data.
+ */
 public class MyList {
+    private Node head, tail;
+    private int size;
+
     private class Node {
-        public Node(String first, String second) {
-            this.first = first;
-            this.second = second;
-        }
         public Node next;
-        public String first, second;
+        public MyElement element;
+
+        public Node(MyElement element) {
+            this.element = element;
+        }
     }
 
     /**
-     * Add a two-element array of first and second to the end of the list.
+     * Add an element to the end of the list.
      *
-     * @param first  first element if the two-element array to add
-     * @param second  second element if the two-element array to add
+     * @param element  MyElement object to add
      */
-    public void add(String first, String second) {
-        Node newNode = new Node(first, second);
+    public void add(MyElement element) {
+        Node newNode = new Node(element);
         if (head == null) {
             head = newNode;
             tail = newNode;
@@ -30,43 +35,90 @@ public class MyList {
     }
 
     /**
+     * Get element with the key key or null if there is no such key.
+     *
+     * @param key  a key to look for in the list
+     * @return the element with the key key or null if there is no such key
+     */
+    public MyElement getElement(String key) {
+        if (head == null)
+            return null;
+        Node node = head;
+        while (true) {
+            if (node == null)
+                return null;
+            if (node.element.key.equals(key))
+                return node.element;
+            node = node.next;
+        }
+    }
+
+    /**
      * Get an element at the index index. Works in O(index) time.
      *
      * @param index  the index of the desired element
-     * @return a two-element array at the index index
+     * @return an element at the index index
      */
-    public String[] get(int index) {
+    public MyElement at(int index) {
         Node node = head;
         for (int i = 0; i < index; i++) {
             node = node.next;
         }
-        return new String[] {node.first, node.second};
+        return node.element;
     }
 
     /**
-     * Remove an element at the index index. The indexes of the elements lying beyond the index index are decreased by 1.
-     * Works in O(index) time.
-     *
-     * @param index  the index of the element to remove
+     * Remove an element with the key.
+     * @param key  a key of an element to delete
+     * @return MyElement object with the key or null if there were no element with such key.
      */
-    public void remove(int index) {
-        size--;
-        if (index == 0) {
+    public MyElement remove(String key) {
+        if (head == null)
+            return null;
+        if (head.element.key.equals(key)) {
+            size--;
+            MyElement element = head.element;
             head = head.next;
-            return;
+            return element;
         }
         Node prevNode = head;
         Node node = head.next;
-        for (int i = 1; i < index; i++) {
+        while (true) {
+            if (node == null)
+                break;
+            if (node.element.key.equals(key)) {
+                size--;
+                MyElement element = node.element;
+                prevNode.next = node.next;
+                return element;
+            }
             prevNode = node;
-            node = prevNode.next;
+            node = node.next;
         }
-        prevNode.next = node.next;
+        return null;
     }
+
+    /**
+     * Check if there is an element with such a element in the list.
+     * @param key  a key to look for in the list
+     * @return  true if the list contains an element with the key, false otherwise
+     */
+    public boolean contains(String key) {
+        if (head == null)
+            return false;
+        Node node = head;
+        while (true) {
+            if (node.element.key.equals(key))
+                return true;
+            if (node.next != null)
+                node = node.next;
+            else
+                break;
+        }
+        return false;
+    }
+
     public int size() {
         return size;
     }
-
-    private Node head, tail;
-    private int size;
 }

@@ -1,6 +1,15 @@
 package name.murfel.hw01;
 
+/**
+ * MyHashMap implements a hash table data structure which stores key, value pairs of elements
+ * where a key is unique among all the elements. MyHashMap provides, on average, O(1) element lookup by key.
+ *
+ * MyHashMap is implemented using the open adressing (with lists) strategy for the collision resolution of key hashes.
+ */
 public class MyHashMap {
+    private MyList[] data = new MyList[1];
+    private int size = 0;
+
     public int size() {
         return size;
     }
@@ -15,18 +24,14 @@ public class MyHashMap {
      */
     public boolean contains(String key) {
         MyList list = data[getHash(key)];
-        if (list == null) return false;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i)[0].equals(key)) {
-                return true;
-            }
-        }
-        return false;
+        if (list == null)
+            return false;
+        return list.contains(key);
     }
 
     /**
      * Get the element with the key key.
-     * Average-case performance is O(1) and the worst-case performance is O(size()) of String.equal() operations
+     * Average-case performance is O(1) and the worst-case performance is O(size()) of String.equals() operations
      * plus one call to the String.hashCode() method.
      *
      * @param key  the key of the desired element
@@ -34,11 +39,11 @@ public class MyHashMap {
      */
     public String get(String key) {
         MyList list = data[getHash(key)];
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i)[0].equals(key)) {
-                return list.get(i)[1];
-            }
-        }
+        if (list == null)
+            return null;
+        MyElement element = list.getElement(key);
+        if (element != null)
+            return element.value;
         return null;
     }
 
@@ -72,31 +77,26 @@ public class MyHashMap {
         }
         if (data[getHash(key)] == null)
             data[getHash(key)] = new MyList();
-        data[getHash(key)].add(key, value);
+        data[getHash(key)].add(new MyElement(key, value));
         size++;
         return oldValue;
     }
 
     /**
-     * Remove the element with the key key from the hash map and returns the value of the removed element.
+     * Remove the element with the key key from the hash map and return the value of the removed element.
      *
      * @param key  the key of the element to remove
      * @return the value of the removed element or null if there were no such element
      */
     public String remove(String key) {
-        String value = null;
         if (contains(key)) {
-            value = get(key);
-            MyList list = data[getHash(key)];
-            for (int i = 0; i < list.size(); i++) {
-                if (list.get(i)[0].equals(key)) {
-                    list.remove(i);
-                    break;
-                }
-            }
             size--;
+            MyElement element = data[getHash(key)].remove(key);
+            if (element != null)
+                return element.value;
+            return null;
         }
-        return value;
+        return null;
     }
 
     /**
@@ -108,9 +108,6 @@ public class MyHashMap {
         size = 0;
     }
 
-    private MyList[] data = new MyList[1];
-    private int size = 0;
-
     /**
      * Increase the number of buckets by the factor of 2 and recalculate new buckets for all elements.
      */
@@ -120,7 +117,8 @@ public class MyHashMap {
         size = 0;
         for (MyList list : oldData) {
             for (int i = 0; i < list.size(); i++) {
-                put(list.get(i)[0], list.get(i)[1]);
+                MyElement element = list.at(i);
+                put(element.key, element.value);
             }
         }
     }
