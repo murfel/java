@@ -43,7 +43,7 @@ public class MyHashMap {
             return null;
         MyElement element = list.getElement(key);
         if (element != null)
-            return element.value;
+            return element.getValue();
         return null;
     }
 
@@ -93,7 +93,7 @@ public class MyHashMap {
             size--;
             MyElement element = data[getHash(key)].remove(key);
             if (element != null)
-                return element.value;
+                return element.getValue();
             return null;
         }
         return null;
@@ -118,7 +118,7 @@ public class MyHashMap {
         for (MyList list : oldData) {
             for (int i = 0; i < list.size(); i++) {
                 MyElement element = list.at(i);
-                put(element.key, element.value);
+                put(element.getKey(), element.getValue());
             }
         }
     }

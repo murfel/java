@@ -10,16 +10,16 @@ public class Main {
 
     public static void myElementDemo() {
         MyElement element = new MyElement("first", "second");
-        System.out.println(element.key);  // first
-        System.out.println(element.value);  // second
+        System.out.println(element.getKey());  // first
+        System.out.println(element.getValue());  // second
     }
 
     public static void myListDemo() {
         MyList l = new MyList();
         l.add(new MyElement("kek", "lol"));
         System.out.println(l.size()); // 1
-        System.out.println(l.at(0).key);  // kek
-        System.out.println(l.at(0).value);  // lol
+        System.out.println(l.at(0).getKey());  // kek
+        System.out.println(l.at(0).getValue());  // lol
         System.out.println(l.size());  // 1
         l.remove("kek");
         System.out.println(l.size());  // 0

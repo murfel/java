@@ -47,7 +47,7 @@ public class MyList {
         while (true) {
             if (node == null)
                 return null;
-            if (node.element.key.equals(key))
+            if (node.element.getKey().equals(key))
                 return node.element;
             node = node.next;
         }
@@ -75,7 +75,7 @@ public class MyList {
     public MyElement remove(String key) {
         if (head == null)
             return null;
-        if (head.element.key.equals(key)) {
+        if (head.element.getKey().equals(key)) {
             size--;
             MyElement element = head.element;
             head = head.next;
@@ -86,7 +86,7 @@ public class MyList {
         while (true) {
             if (node == null)
                 break;
-            if (node.element.key.equals(key)) {
+            if (node.element.getKey().equals(key)) {
                 size--;
                 MyElement element = node.element;
                 prevNode.next = node.next;
@@ -108,7 +108,7 @@ public class MyList {
             return false;
         Node node = head;
         while (true) {
-            if (node.element.key.equals(key))
+            if (node.element.getKey().equals(key))
                 return true;
             if (node.next != null)
                 node = node.next;
