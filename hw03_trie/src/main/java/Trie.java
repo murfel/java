@@ -3,6 +3,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 
+/**
+ * Implement the Trie data structure for storing strings in such a way to provide an effective lookup.
+ */
 public class Trie implements Serializable {
 
     /**
