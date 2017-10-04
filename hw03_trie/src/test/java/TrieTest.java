@@ -8,7 +8,6 @@ public class TrieTest {
     private List<String> smallSample = Arrays.asList("meow", "purr", "meown", "me");
     private List<String> mediumSample = Arrays.asList("A", "to", "tea", "ted", "ten", "i", "in", "inn");
 
-    @org.junit.Test
     private void randomShuffleAddRepeat(List<String> inputData, int repeat) throws Exception {
         for (int i = 0; i < repeat; i++) {
             Trie trie = new Trie();
@@ -39,6 +38,12 @@ public class TrieTest {
     }
 
     @org.junit.Test
+    public void containsNoEmptyStringEmpty() throws Exception {
+        Trie trie = new Trie();
+        assertFalse(trie.contains(""));
+    }
+
+    @org.junit.Test
     public void addOneContains() throws Exception {
         Trie trie = new Trie();
         trie.add("kotiki");
@@ -49,7 +54,7 @@ public class TrieTest {
     public void containsOneNegative() throws Exception {
         Trie trie = new Trie();
         trie.add("kotiki");
-        assertTrue(trie.contains("korovki"));
+        assertFalse(trie.contains("korovki"));
     }
 
     @org.junit.Test
@@ -78,6 +83,13 @@ public class TrieTest {
     }
 
     @org.junit.Test
+    public void removeEmptyStringFromEmpty() throws Exception {
+        Trie trie = new Trie();
+        assertFalse(trie.remove(""));
+        assertEquals(0, trie.size());
+    }
+
+    @org.junit.Test
     public void addRemove() throws Exception {
         Trie trie = new Trie();
         trie.add("kotiki");
@@ -91,6 +103,14 @@ public class TrieTest {
         trie.add("kotiki");
         assertFalse(trie.remove("korovki"));
         assertEquals(1, trie.size());
+    }
+
+    @org.junit.Test
+    public void addTwoRemoveOne() throws Exception {
+        Trie trie = new Trie();
+        trie.add("kotiki");
+        trie.add("korovki");
+        assertTrue(trie.remove("kotiki"));
     }
 
     @org.junit.Test
@@ -178,6 +198,7 @@ public class TrieTest {
         assertEquals(1, trie.howManyStartsWithPrefix("me"));
         assertEquals(1, trie.howManyStartsWithPrefix("meo"));
         assertEquals(1, trie.howManyStartsWithPrefix("meow"));
+        assertEquals(0, trie.howManyStartsWithPrefix("meown"));
     }
 
     @org.junit.Test
@@ -194,13 +215,5 @@ public class TrieTest {
         assertEquals(3, trie.howManyStartsWithPrefix("te"));
         assertEquals(3, trie.howManyStartsWithPrefix("i"));
         assertEquals(2, trie.howManyStartsWithPrefix("in"));
-    }
-
-    @org.junit.Test
-    public void serialize() throws Exception {
-    }
-
-    @org.junit.Test
-    public void deserialize() throws Exception {
     }
 }
