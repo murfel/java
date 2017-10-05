@@ -71,6 +71,7 @@ public class MyHashMap {
         String oldValue = null;
         if (contains(key)) {
             oldValue = get(key);
+            remove(key);
         }
         if (data.length == size()) {
             rehash();
@@ -113,7 +114,7 @@ public class MyHashMap {
      */
     private void rehash() {
         MyList[] oldData = data;
-        MyList[] data = new MyList[2 * size];
+        data = new MyList[2 * size];
         size = 0;
         for (MyList list : oldData) {
             for (int i = 0; i < list.size(); i++) {
@@ -129,6 +130,6 @@ public class MyHashMap {
      * @return the local hash of the key
      */
     private int getHash(String key) {
-        return key.hashCode() % data.length;
+        return (key.hashCode() + data.length) % data.length;
     }
 }
