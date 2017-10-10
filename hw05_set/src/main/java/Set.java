@@ -25,18 +25,6 @@ public class Set<T extends Comparable<T>> {
         if (contains(elem))
             return;
         size++;
-//        Node node = root;
-//        while (true) {
-//            if (node == null) {
-//                node = new Node(elem);
-//                break;
-//            }
-//            if (elem.compareTo(node.data) < 0)
-//                node = node.left;
-//            else
-//                node = node.right;
-//        }
-
         if (root == null) {
             root = new Node(elem);
             return;
