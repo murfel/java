@@ -1,9 +1,16 @@
-import java.util.AbstractSet;
-import java.util.Iterator;
-import java.util.TreeSet;
+import java.util.*;
 
 
 public class MyRealTreeSet<E> extends AbstractSet<E> implements MyTreeSet<E> {
+
+    public MyRealTreeSet() {
+        ;
+    }
+
+    public MyRealTreeSet(Comparator<E> comparator) {
+        this.comparator = comparator;
+    }
+
     /**
      * {@link TreeSet#descendingIterator()}
      **/
@@ -86,6 +93,13 @@ public class MyRealTreeSet<E> extends AbstractSet<E> implements MyTreeSet<E> {
         return 0;
     }
 
+    public boolean add(E e) {
+
+    }
+
+    public E remove(int index) {
+
+    }
 
     private class Node {
         Node left, right, parent;
@@ -104,6 +118,7 @@ public class MyRealTreeSet<E> extends AbstractSet<E> implements MyTreeSet<E> {
     }
 
     private boolean isIncreasing = true;
+    private Comparator<E> comparator;
 
 
 }
