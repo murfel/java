@@ -1,5 +1,3 @@
-import jdk.nashorn.internal.objects.annotations.Function;
-
 import java.util.*;
 import java.util.function.BinaryOperator;
 
@@ -35,7 +33,7 @@ public class Calculator {
     /**
      * A class for representing either an Integer number, an operator (+-*\/), or parenthesis.
      */
-    public class Token {
+    public static class Token {
         Token(Integer number) {
             type = Type.NUMBER;
             this.number = number;
@@ -55,6 +53,9 @@ public class Calculator {
     }
 
     /**
+     * The instance argument stack is only used inside of calculate method.
+     * It does not affect any other method in any way.
+     *
      * @param stack  a stack which will be used for every calculate call
      */
     public Calculator(Stack<Integer> stack) {
