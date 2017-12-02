@@ -1,17 +1,22 @@
-public class Stack<E> {
-    boolean isEmpty() {
-        return false;
-    }
+import java.util.ArrayList;
 
-    E peek() {
-        return null;
+public class Stack<E> {
+    ArrayList<E> stack = new ArrayList<>();
+
+    boolean isEmpty() {
+        return stack.isEmpty();
     }
 
     E pop() {
-        return null;
+        return stack.remove(stack.size() - 1);
     }
 
     E push(E e) {
-        return null;
+        stack.add(e);
+        return e;
+    }
+
+    void clear() {
+        stack.clear();
     }
 }

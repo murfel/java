@@ -44,7 +44,7 @@ public class Calculator {
         public Integer number;
     }
 
-    public Calculator(ArrayList<Integer> stack) {
+    public Calculator(Stack<Integer> stack) {
         this.stack = stack;
     }
 
@@ -107,22 +107,15 @@ public class Calculator {
         stack.clear();
         for (Token token : expr) {
             if (token.type == Type.NUMBER) {
-                stack.add(token.number);
+                stack.push(token.number);
             }
             else {
-                int o2 = stack.get(stack.size() - 1);
-                int o1 = stack.get(stack.size() - 2);
-                stack.remove(stack.size() - 1);
-                stack.remove(stack.size() - 1);
-                stack.add(operation.get(token.token).apply(o1, o2));
+                int o2 = stack.pop();
+                int o1 = stack.pop();
+                stack.push(operation.get(token.token).apply(o1, o2));
             }
-            System.out.println("Stack state: ");
-            for (Integer t : stack) {
-                System.out.print(t + " ");
-            }
-            System.out.println();
         }
-        return stack.get(0);
+        return stack.pop();
     }
 
     public static void main(String[] args) {
@@ -130,7 +123,7 @@ public class Calculator {
         String input2 = "( 1 + 2 )";  // 3
         String input3 = "1 + 2 * 3 + 1 / 2 - 1";  // 6
 
-        Calculator calc = new Calculator(new ArrayList<>());
+        Calculator calc = new Calculator(new Stack<>());
 
         ArrayList<Token> l = calc.getInfixExpression(input3);
         for (Token t : l) {
@@ -151,5 +144,5 @@ public class Calculator {
         System.out.println(calc.calculate(p));
     }
 
-    private ArrayList<Integer> stack;
+    private Stack<Integer> stack;
 }
