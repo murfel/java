@@ -3,6 +3,13 @@ import jdk.nashorn.internal.objects.annotations.Function;
 import java.util.*;
 import java.util.function.BinaryOperator;
 
+/**
+ * This class provides an ability to compute an infix expression with +-*\/() and natural numbers.
+ * It does so by providing an interface to parse an infix expression from string, to convert from
+ * an infix expression to a postfix notation, and to compute an expression in postfix notation.
+ *
+ * Incorrect arguments cause undefined behaviour.
+ */
 public class Calculator {
     private static HashMap<String, Integer> priority = new HashMap<>();
     private static HashMap<String, BinaryOperator<Integer>> operation = new HashMap<>();
@@ -25,6 +32,9 @@ public class Calculator {
         OPERATION
     }
 
+    /**
+     * A class for representing either an Integer number, an operator (+-*\/), or parenthesis.
+     */
     public class Token {
         Token(Integer number) {
             type = Type.NUMBER;
@@ -44,10 +54,19 @@ public class Calculator {
         public Integer number;
     }
 
+    /**
+     * @param stack  a stack which will be used for every calculate call
+     */
     public Calculator(Stack<Integer> stack) {
         this.stack = stack;
     }
 
+    /**
+     * Split string into tokens and build a list out of them.
+     *
+     * @param expr  an arithmetic expression in infix notation with space between every token
+     * @return ArrayList with tokens from expr
+     */
     public ArrayList<Token> getInfixExpression(String expr) {
         ArrayList<Token> list = new ArrayList<Token>();
         Scanner scanner = new Scanner(expr);
@@ -60,6 +79,13 @@ public class Calculator {
         return list;
     }
 
+    /**
+     * Convert an expression in infix notation to the same expression in postfix notation.
+     * Implemented as the shunting-yard algorithm.
+     *
+     * @param expr  an expresssion in infix notation
+     * @return  an expression equivalent to expr but in prefix notation
+     */
     public ArrayList<Token> infixToPostfix(ArrayList<Token> expr) {
         ArrayList<Token> intermediateStack = new ArrayList<>();
         ArrayList<Token> outputQueue = new ArrayList<>();
@@ -103,6 +129,15 @@ public class Calculator {
         return outputQueue;
     }
 
+    /**
+     * Calculate the result of an expression in postfix notation.
+     * Calculation uses the stack provided at the time this object was instantiated.
+     * One instance of Calculator can calculate multiple expressions, every time it will use the same stack
+     * clearing it before the start.
+     *
+     * @param expr an expression in postfix notation
+     * @return  the result of the computation
+     */
     public Integer calculate(ArrayList<Token> expr) {
         stack.clear();
         for (Token token : expr) {
@@ -118,29 +153,19 @@ public class Calculator {
         return stack.pop();
     }
 
+
+    /**
+     * Read one line from System.in which should represent an arithmetic expression in infix notation
+     * with spaces between every token (a token is either a number, or a character from "+-*\/()")
+     * and print out the result of this computation to System.out.
+     */
     public static void main(String[] args) {
-        String input1 = "2 + 3";  // 5
-        String input2 = "( 1 + 2 )";  // 3
-        String input3 = "1 + 2 * 3 + 1 / 2 - 1";  // 6
+        Scanner reader = new Scanner(System.in);
+        String input = reader.nextLine();
 
         Calculator calc = new Calculator(new Stack<>());
-
-        ArrayList<Token> l = calc.getInfixExpression(input3);
-        for (Token t : l) {
-            if (t.type == Type.NUMBER)
-                System.out.println(t.number);
-            else
-                System.out.println(t.token);
-        }
-        System.out.println("~~~");
+        ArrayList<Token> l = calc.getInfixExpression(input);
         ArrayList<Token> p = calc.infixToPostfix(l);
-        for (Token t : p) {
-            if (t.type == Type.NUMBER)
-                System.out.println(t.number);
-            else
-                System.out.println(t.token);
-        }
-        System.out.println("~~~");
         System.out.println(calc.calculate(p));
     }
 
