@@ -1,5 +1,5 @@
 public class Stack<E> {
-    boolean empty() {
+    boolean isEmpty() {
         return false;
     }
 
