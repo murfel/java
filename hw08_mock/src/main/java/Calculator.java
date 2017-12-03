@@ -47,6 +47,21 @@ public class Calculator {
             this.token = token;
         }
 
+        @Override
+        public boolean equals(Object other) {
+            if (other == null) return false;
+            if (other == this) return true;
+            if (!(other instanceof Token)) return false;
+            Token otherToken = (Token) other;
+            if (type == otherToken.type) {
+                if (type == Type.NUMBER) {
+                    return number.equals(otherToken.number);
+                }
+                return token.equals(otherToken.token);
+            }
+            return false;
+        }
+
         public Type type;
         public String token;
         public Integer number;
