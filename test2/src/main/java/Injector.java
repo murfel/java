@@ -107,6 +107,15 @@ public class Injector {
         objects.put(currentClass, currentClassObject);
     }
 
+    /**
+     * Create an array of objects needed for aClass to be instantiated.
+     *
+     * It is assumed that aClass has a sole public constructor which only accepts non-trivial types.
+     *
+     * @param aClass  a class with constructor to meet requirements for
+     * @param objects  objects to pick from
+     * @return  an array of args ready to instantiate aClass
+     */
     private static Object[] getArrayOfArgs(Class aClass, HashMap<Class, Object> objects) {
         Constructor ctor = aClass.getConstructors()[0];
         Object[] args = new Object[ctor.getParameterCount()];
