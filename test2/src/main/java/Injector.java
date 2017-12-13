@@ -23,7 +23,7 @@ public class Injector {
         classes.add(rootClassName);
         HashMap<Class, HashSet<Class>> matrix = buildDependencyMatrix(classes);
         HashMap<Class, Object> objects = new HashMap<>();
-        dfs(rootClassName, matrix, new HashMap<Class, Color>(), objects);
+        dfs(rootClassName, matrix, new HashMap<Class, VertexType>(), objects);
         return objects.get(rootClassName);
     }
 
@@ -65,7 +65,7 @@ public class Injector {
         return matrix;
     }
 
-    private static enum Color {
+    private static enum VertexType {
         NOT_VISITED,  // white
         ON_STACK,  // green
         VISITED  // gray
@@ -86,21 +86,21 @@ public class Injector {
      * @param objects  a storage with all currently created objects
      */
     private static void dfs(Class currentClass, HashMap<Class, HashSet<Class>> matrix,
-                            HashMap<Class, Color> color, HashMap<Class, Object> objects)
+                            HashMap<Class, VertexType> color, HashMap<Class, Object> objects)
             throws InjectionCycleException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        Color currentColor = color.getOrDefault(currentClass, Color.NOT_VISITED);
-        if (currentColor.equals(Color.VISITED)) {
+        VertexType currentVertexType = color.getOrDefault(currentClass, VertexType.NOT_VISITED);
+        if (currentVertexType.equals(VertexType.VISITED)) {
             return;
         }
-        if (currentColor.equals(Color.ON_STACK)) {
+        if (currentVertexType.equals(VertexType.ON_STACK)) {
             throw new InjectionCycleException();  // we only dfs from root component
         }
 
-        color.put(currentClass, Color.ON_STACK);
+        color.put(currentClass, VertexType.ON_STACK);
         for (Class dependencyClass : matrix.get(currentClass)) {
             dfs(dependencyClass, matrix, color, objects);
         }
-        color.put(currentClass, Color.VISITED);
+        color.put(currentClass, VertexType.VISITED);
 
         Object[] args = getArrayOfArgs(currentClass, objects);
         Object currentClassObject = currentClass.getConstructors()[0].newInstance(args);
