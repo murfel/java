@@ -1,3 +1,4 @@
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -52,7 +53,7 @@ public class Injector {
             return;
         }
         if (currentColor.equals(Color.ON_STACK)) {
-            throw new InjectionCycleException();  // dfs from root component
+            throw new InjectionCycleException();  // we only dfs from root component
         }
 
         color.put(currentClass, Color.ON_STACK);
@@ -61,8 +62,18 @@ public class Injector {
         }
         color.put(currentClass, Color.VISITED);
 
-        // we have a Collection of arg objects, and we need to pass them as arguments to this ctor
-        Object currentClassObject = currentClass.getConstructors()[0].newInstance();  // TODO this line is currently wrong!
+        Object[] args = getArrayOfArgs(currentClass, objects);
+        Object currentClassObject = currentClass.getConstructors()[0].newInstance(args);
         objects.put(currentClass, currentClassObject);
+    }
+
+    private static Object[] getArrayOfArgs(Class aClass, HashMap<Class, Object> objects) {
+        Constructor ctor = aClass.getConstructors()[0];
+        Object[] args = new Object[ctor.getParameterCount()];
+        int i = 0;
+        for (Class param : ctor.getParameterTypes()) {
+            args[i] = objects.get(param);
+        }
+        return args;
     }
 }
