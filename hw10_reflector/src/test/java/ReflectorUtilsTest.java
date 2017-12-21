@@ -15,7 +15,6 @@ public class ReflectorUtilsTest {
 
     @org.junit.Test
     public void simple() throws Exception {
-        ReflectorUtils.getDiffClasses(TestClass1.class, TestClass2.class);
-        System.out.println(TestClass1.class.equals(TestClass2.class));
+        ReflectorUtils.printStructure((new TestClass1<Integer>()).getClass());
     }
 }
