@@ -25,7 +25,7 @@ public class SmartList<E> extends AbstractList<E> {
      * @param collection  the collection whose elements are to be placed into this list
      * @throws NullPointerException  if the specified collection is null
      */
-    public SmartList(Collection<E> collection) {
+    public SmartList(Collection<? extends E> collection) {
         size = collection.size();
         if (size == 1) {
             data = collection.iterator().next();
