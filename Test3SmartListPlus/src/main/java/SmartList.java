@@ -8,6 +8,7 @@ import java.util.Collection;
  * Implements all optional list operations, and permits all elements, including null.
  *
  * Optimized to store a small number of elements while still allowing to store any number of elements.
+ * A small number is considered to be 5 in this implementation.
  *
  * @param <E> type of stored elements
  */
@@ -29,7 +30,7 @@ public class SmartList<E> extends AbstractList<E> {
         size = collection.size();
         if (size == 1) {
             data = collection.iterator().next();
-        } else if (size > 0 && size <= 5) {
+        } else if (size > 0 && size <= TRESHOLD) {
             data = collection.toArray();
         } else if (size > 0){
             data = new ArrayList<>(collection);
@@ -52,7 +53,7 @@ public class SmartList<E> extends AbstractList<E> {
             E element = (E) data;
             return element;
         }
-        if (size <= 5) {
+        if (size <= TRESHOLD) {
             @SuppressWarnings("unchecked")
             E[] elements = (E[]) data;
             return elements[index];
@@ -84,7 +85,7 @@ public class SmartList<E> extends AbstractList<E> {
             data = element;
             return oldElement;
         }
-        if (size <= 5) {
+        if (size <= TRESHOLD) {
             @SuppressWarnings("unchecked")
             E[] array = (E[]) data;
             E oldElement = array[index];
@@ -116,11 +117,11 @@ public class SmartList<E> extends AbstractList<E> {
         if (size == 0) {
             data = element;
         } else if (size == 1) {
-            Object[] newData = new Object[5];
+            Object[] newData = new Object[TRESHOLD];
             newData[index] = element;
             newData[1 - index] = data;
             data = newData;
-        } else if (size < 5) {
+        } else if (size < TRESHOLD) {
             @SuppressWarnings("unchecked")
             E[] array = (E[]) data;
             for (int i = size - 1; i >= index; size++) {
@@ -129,7 +130,7 @@ public class SmartList<E> extends AbstractList<E> {
             System.arraycopy(array, index, array, index + 1, size - index);
             array[index] = element;
             data = array;
-        } else if (size == 5) {
+        } else if (size == TRESHOLD) {
             @SuppressWarnings("unchecked")
             E[] array = (E[]) data;
             ArrayList<E> arrayList = new ArrayList<>(Arrays.asList(array));
@@ -163,7 +164,7 @@ public class SmartList<E> extends AbstractList<E> {
             return element;
         }
         E element;
-        if (size <= 5) {
+        if (size <= TRESHOLD) {
             @SuppressWarnings("unchecked")
             E[] array = (E[]) data;
             element = array[index];
@@ -176,7 +177,7 @@ public class SmartList<E> extends AbstractList<E> {
             @SuppressWarnings("unchecked")
             ArrayList<E> arrayList = (ArrayList<E>) data;
             element = arrayList.remove(index);
-            if (size == 6) {
+            if (size == TRESHOLD + 1) {
                 data = arrayList.toArray();
             }
         }
@@ -191,4 +192,5 @@ public class SmartList<E> extends AbstractList<E> {
 
     private int size;
     private Object data;
+    private final int TRESHOLD = 5;
 }
