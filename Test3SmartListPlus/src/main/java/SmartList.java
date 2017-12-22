@@ -3,6 +3,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+/**
+ * Resizable-array implementation of the List interface.
+ * Implements all optional list operations, and permits all elements, including null.
+ *
+ * Optimized to store a small number of elements while still allowing to store any number of elements.
+ *
+ * @param <E> type of stored elements
+ */
 public class SmartList<E> extends AbstractList<E> {
     /**
      * Constructs an empty list.
