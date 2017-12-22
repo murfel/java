@@ -19,13 +19,11 @@ public class SmartList<E> extends AbstractList<E> {
      */
     public SmartList(Collection<E> collection) {
         size = collection.size();
-        if (size == 0) {
-            return;
-        } else if (size == 1) {
+        if (size == 1) {
             data = collection.iterator().next();
-        } else if (size <= 5) {
+        } else if (size > 0 && size <= 5) {
             data = collection.toArray();
-        } else {
+        } else if (size > 0){
             data = new ArrayList<>(collection);
         }
     }
