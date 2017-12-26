@@ -8,6 +8,7 @@ import java.util.function.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class StreamProblems {
@@ -50,6 +51,19 @@ public class StreamProblems {
     }
 
     /**
+     * Числа от 2 до n,
+     * фильтр, не пропускающий не простые,
+     * map<количество сотен, число простых в сотне>
+     */
+    public static Map<Integer, Long> task1V2(int n) {
+        return IntStream
+                .rangeClosed(2, n)
+                .filter(x -> IntStream.rangeClosed(2, (int)Math.sqrt(x)).allMatch(d -> x % d != 0))
+                .boxed()
+                .collect(Collectors.groupingBy((Integer x) -> x / 100, Collectors.counting()));
+    }
+
+    /**
      У вас есть Iterator (потенциально бесконечный) по объектам типа Point, в которых есть
      поля x, y, mass. Напишите одну цепочку команд, которая (каждый следующий пункт -
      продолжение предыдущего):
@@ -76,11 +90,7 @@ public class StreamProblems {
                     @Override
                     public boolean test(Point point) {
                         Double element = masses.higher(point.mass - 1e-5);
-                        boolean ans;
-                        if (element == null)
-                            ans = true;
-                        else
-                            ans = Math.abs(element - point.mass) >= 1e-5;
+                        boolean ans = element == null || Math.abs(element - point.mass) >= 1e-5;
                         if (ans)
                             masses.add(point.mass);
                         return ans;
@@ -113,71 +123,32 @@ public class StreamProblems {
         Files.lines(Paths.get(filename))
                 .flatMap(x -> Arrays.stream(x.split("\\s+")))
                 .filter(IS_NATURAL.asPredicate())
-                .collect(new Collector<String, List<Integer>, List<Integer>>() {
-                    @Override
-                    public Supplier<List<Integer>> supplier() {
-                        return () -> new ArrayList<Integer>(Collections.nCopies(10, 0));
-                    }
-
-                    @Override
-                    public BiConsumer<List<Integer>, String> accumulator() {
-                        return (list, x) -> list.set(x.charAt(0) - '0', list.get(x.charAt(0) - '0') + 1);
-                    }
-
-                    @Override
-                    public BinaryOperator<List<Integer>> combiner() {
-                        return (list1, list2) -> {
-                            for (int i = 0; i < list2.size(); i++) {
-                                list1.set(i, list1.get(i) + list2.get(i));
+                .collect(Collectors.groupingBy(
+                        x -> x.charAt(0),
+                        () -> {
+                            Map<Character, Long> map = new HashMap<>();
+                            for (int i = 0; i < 10; i++) {
+                                map.put((char) (i + '0'), 0L);
                             }
-                            return list1;
-                        };
-                    }
+                            return map;
+                        },
+                        Collectors.counting()))
+                .entrySet()
+                .stream()
+                .sorted(Comparator.comparing(Map.Entry::getKey))
+                .forEach(new Consumer<Map.Entry<Character, Long>>() {
+                    int last = -1;
 
                     @Override
-                    public Function<List<Integer>, List<Integer>> finisher() {
-                        return (list) -> {
-                            list.stream().forEach(System.out::println);
-                            return list;
-                        };
-                    }
-
-                    @Override
-                    public Set<Characteristics> characteristics() {
-                        return new HashSet<>();
+                    public void accept(Map.Entry<Character, Long> characterLongEntry) {
+                        int current = characterLongEntry.getKey() - '0';
+                        for (int i = last + 1; i < current; i++) {
+                            System.out.println(0);
+                        }
+                        System.out.println(characterLongEntry.getValue());
+                        last = current;
                     }
                 });
-//                .collect(
-//                        () -> new ArrayList<Integer>(Collections.nCopies(10, 0)),
-//                        (list, x) -> list.set(x.charAt(0) - '0', list.get(x.charAt(0) - '0') + 1),
-//                        (list1, list2) -> {
-//                            for (int i = 0; i < list2.size(); i++) {
-//                                list1.set(i, list1.get(i) + list2.get(i));
-//                            }
-//                            return list1;
-//                        }
-//                );
-//                .collect(Collectors.groupingBy(
-//                        x -> x.charAt(0),
-//                        Collectors.counting()
-//                ));
-//                .entrySet()
-//                .stream()
-//                .sorted(Comparator.comparing(Map.Entry::getKey))
-//                .collect(Collectors)
-//                .forEach(new Consumer<Map.Entry<Character, Long>>() {
-//                    int last = -1;
-//
-//                    @Override
-//                    public void accept(Map.Entry<Character, Long> characterLongEntry) {
-//                        int current = characterLongEntry.getKey() - '0';
-//                        for (int i = last + 1; i < current; i++) {
-//                            System.out.println(0);
-//                        }
-//                        System.out.println(characterLongEntry.getValue());
-//                        last = current;
-//                    }
-//                });
         return null;
     }
 

@@ -1,5 +1,8 @@
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
@@ -12,6 +15,12 @@ public class StreamProblemsTest {
         double expected = 1.8;
         double actual = StreamProblems.task1(input);
         assertEquals(expected, actual, 1e-5);
+    }
+
+    @Test
+    public void task1V2() throws Exception {
+        Map<Integer, Long> map = StreamProblems.task1V2(440);
+//        System.out.println(map);
     }
 
     @org.junit.Test
@@ -35,11 +44,9 @@ public class StreamProblemsTest {
     @org.junit.Test
     public void task5() throws Exception {
         String filename = "src/test/resources/numbers.txt";
-        int[] expected = new int[10];
-        expected[1] = 1;
-        expected[4] = 1;
-        expected[5] = 2;
-        int[] actual = StreamProblems.task5(filename);
+        int[] expected = {0,1,0,0,1,2,0,0,0,0};
+        StreamProblems.task5(filename);
+//        int[] actual = StreamProblems.task5(filename);
 //        assertEquals(expected, actual);
     }
 
