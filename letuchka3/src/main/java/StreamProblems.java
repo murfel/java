@@ -51,11 +51,40 @@ public class StreamProblems {
     }
 
     /**
+     Задание №1. Версия 2
+     В файле text.txt содержится некоторая книга. Напишите одну цепочку команд, которая
+     (каждый следующий пункт - продолжение предыдущего):
+     ● получит stream всех слов из текста. Под словами понимаем наборы символов,
+     разделенные пробельными символами и/или знаками пунктуации.
+     ● удалит из стрима пустые строки и строки являющиеся числами
+     ● Приведет все слова к нижнему регистру
+     ● Получит стрим пар - слово и сколько раз оно встречается в тексте
+     ● Выведет на экран топ10 самых часто встречающихся слов и сколько раз они
+     встречаются
+     */
+    public static void task1V2() throws IOException {
+        Files.lines(Paths.get("harry.txt"))
+                .flatMap(s -> Arrays.stream(s.split("\\s+")))
+                .map(s -> s.replaceAll("[.,!?\"']", ""))
+                .map(String::toLowerCase)
+                .filter(s -> !s.isEmpty())
+                .filter(s -> s.length() > 2)
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet()
+                .stream()
+                .sorted(Comparator.comparingLong(Map.Entry<String, Long>::getValue).reversed())
+                .limit(15)
+                .forEach(x -> System.out.println(x.getKey() + " " + x.getValue()));
+    }
+
+
+    /**
+     * Задание №1. Версия 3
      * Числа от 2 до n,
      * фильтр, не пропускающий не простые,
      * map<количество сотен, число простых в сотне>
      */
-    public static Map<Integer, Long> task1V2(int n) {
+    public static Map<Integer, Long> task1V3(int n) {
         return IntStream
                 .rangeClosed(2, n)
                 .filter(x -> IntStream.rangeClosed(2, (int)Math.sqrt(x)).allMatch(d -> x % d != 0))
@@ -127,8 +156,8 @@ public class StreamProblems {
                         x -> x.charAt(0),
                         () -> {
                             Map<Character, Long> map = new HashMap<>();
-                            for (int i = 0; i < 10; i++) {
-                                map.put((char) (i + '0'), 0L);
+                            for (char c = '0'; c <= '9'; c++) {
+                                map.put(c, 0L);
                             }
                             return map;
                         },

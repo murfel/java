@@ -18,8 +18,8 @@ public class StreamProblemsTest {
     }
 
     @Test
-    public void task1V2() throws Exception {
-        Map<Integer, Long> map = StreamProblems.task1V2(440);
+    public void task1V3() throws Exception {
+        Map<Integer, Long> map = StreamProblems.task1V3(440);
 //        System.out.println(map);
     }
 
