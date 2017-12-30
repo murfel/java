@@ -29,6 +29,9 @@ public class TrieTest {
     public void addTwoContains() throws Exception {
         Trie trie = new Trie();
         trie.add("kotiki");
+        assertTrue(trie.contains("kotiki"));
+        trie.add("meow");
+        assertTrue(trie.contains("meow"));
     }
 
     @org.junit.Test

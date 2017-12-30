@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -11,21 +12,6 @@ import java.util.List;
  * and an interface to count how many strings start with the given prefix.
  */
 public class Trie implements Serializable {
-    private class Node {
-        private char symbol;
-        private boolean isTerminating;
-        private int terminatingChildrenCount;
-        private HashMap<Character, Node> children = new HashMap<Character, Node>();
-
-        public Node() {}
-
-        public Node(char symbol) {
-            this.symbol = symbol;
-        }
-    }
-
-    private Node root = new Node();
-
     /**
      * Add the string {@code element} to the trie. If such a string is already present in the trie, do nothing, as
      * copies are not allowed.
@@ -43,7 +29,7 @@ public class Trie implements Serializable {
         for (char c : element.toCharArray()) {
             node.terminatingChildrenCount++;
             if (!node.children.containsKey(c)) {
-                node.children.put(c, new Node(c));
+                node.children.put(c, new Node());
             }
             node = node.children.get(c);
         }
@@ -79,38 +65,26 @@ public class Trie implements Serializable {
         if (!contains(element)) {
             return false;
         }
-        if (element.equals("")) {
-            root.isTerminating = false;
-            return true;
-        }
-        if (element.length() == 1) {
-            root.terminatingChildrenCount--;
-            char nextChar = element.charAt(0);
-            Node nextNode = root.children.get(nextChar);
-            if (nextNode.terminatingChildrenCount == 0) {
-                root.children.remove(element.charAt(0));
-            }
-            else {
-                nextNode.isTerminating = false;
-            }
-            return true;
-        }
+
         Node node = root;
-        for (int i = 0; i < element.length() - 1; i++) {
+        for (int i = 0; i < element.length(); i++) {
             node.terminatingChildrenCount--;
-            char nextChar = element.charAt(i);
-            Node nextNode = node.children.get(nextChar);
-            if (nextNode.terminatingChildrenCount == 1) {
-                if (!nextNode.isTerminating) {
-                    node.children.remove(nextChar);
-                }
-                else {
-                    nextNode.terminatingChildrenCount--;
-                    nextNode.children.remove(element.charAt(i + 1));
-                }
-                return true;
+            char chr = element.charAt(i);
+            node = node.children.get(chr);
+        }
+        node.isTerminating = false;
+
+        char curChar;
+        Node prevNode;
+        node = root;
+        for (int i = 0; i < element.length(); i++) {
+            curChar = element.charAt(i);
+            prevNode = node;
+            node = node.children.get(curChar);
+            if (node.terminatingChildrenCount == 0 && !node.isTerminating) {
+                prevNode.children.remove(curChar);
+                break;
             }
-            node = nextNode;
         }
         return true;
     }
@@ -142,4 +116,12 @@ public class Trie implements Serializable {
         }
         return node.terminatingChildrenCount + (node.isTerminating ? 1 : 0);
     }
+
+    private class Node {
+        private boolean isTerminating;
+        private int terminatingChildrenCount;  // not including yourself
+        private HashMap<Character, Node> children = new HashMap<Character, Node>();
+    }
+
+    private Node root = new Node();
 }
