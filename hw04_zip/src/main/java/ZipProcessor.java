@@ -16,16 +16,19 @@ public class ZipProcessor {
             System.out.println("Terminating.");
             return;
         }
-        process(args[0], args[1]);
+        try {
+            process(args[0], args[1]);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Aborting");
+        }
     }
 
-    public static void process(String path, String pattern) throws IOException {
+    public static void process(String path, String pattern) {
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles == null) {
-            System.out.println("The first argument is not a correct directory name.");
-            System.out.println("Terminating.");
-            return;
+            throw new IllegalArgumentException("The first argument is not a correct directory name.");
         }
         String outputDirName = path + "output";
         (new File(outputDirName)).mkdirs();
@@ -53,12 +56,10 @@ public class ZipProcessor {
                 }
             }
             catch (ZipException e) {
-                continue;
             }
             catch (IOException e) {
-                System.out.println("Oh no, some IO exception: " + e.getMessage());
-                System.out.println("Terminating.");
-                return;
+                System.err.print(e.getMessage());
+                System.out.println("Skipping file: " + file.getName());
             }
         }
 
