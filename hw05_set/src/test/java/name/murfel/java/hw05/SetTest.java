@@ -1,3 +1,5 @@
+package name.murfel.java.hw05;
+
 import static org.junit.Assert.*;
 
 public class SetTest {

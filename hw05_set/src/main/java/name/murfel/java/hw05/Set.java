@@ -1,7 +1,9 @@
+package name.murfel.java.hw05;
+
 /**
  * A container that contains no duplicate elements. It is implemented as a binary search tree without balancing.
  *
- * @param <T>  the type of elements stored in the set
+ * @param <T> the type of elements stored in the set
  */
 public class Set<T extends Comparable<T>> {
     private Node root;
@@ -19,7 +21,7 @@ public class Set<T extends Comparable<T>> {
     /**
      * Add elem to the set. If there is already such an element, do nothing.
      *
-     * @param elem  an element to add to the set
+     * @param elem an element to add to the set
      */
     public void add(T elem) {
         if (contains(elem))
@@ -35,23 +37,20 @@ public class Set<T extends Comparable<T>> {
                 if (parent.left == null) {
                     parent.left = new Node(elem);
                     break;
-                }
-                else
+                } else
                     parent = parent.left;
-            else
-                if (parent.right == null) {
-                    parent.right = new Node(elem);
-                    break;
-                }
-                else
-                    parent = parent.left;
+            else if (parent.right == null) {
+                parent.right = new Node(elem);
+                break;
+            } else
+                parent = parent.left;
         }
     }
 
     /**
      * Check whether elem is present in the set.
      *
-     * @param elem  element whose presence in this set is to be tested
+     * @param elem element whose presence in this set is to be tested
      * @return true if this set contains the specified element
      */
     public boolean contains(T elem) {
