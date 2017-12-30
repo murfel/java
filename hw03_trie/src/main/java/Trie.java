@@ -1,11 +1,5 @@
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Implement the Trie data structure for storing (adding and removing) unique strings in a way allowing effective lookup
@@ -15,10 +9,10 @@ public class Trie implements Serializable {
     /**
      * Add the string {@code element} to the trie. If such a string is already present in the trie, do nothing, as
      * copies are not allowed.
-     *<p>
+     * <p>
      * Works in O(|element|).
      *
-     * @param element  an element to add
+     * @param element an element to add
      * @return true if there were no such string before, false otherwise
      */
     boolean add(String element) {
@@ -40,7 +34,7 @@ public class Trie implements Serializable {
     /**
      * Check whether the string {@code element} is present in the trie. Works in O(|element|).
      *
-     * @param element  a string to look for in the trie
+     * @param element a string to look for in the trie
      * @return true if there is such an element, false otherwise
      */
     boolean contains(String element) {
@@ -58,7 +52,7 @@ public class Trie implements Serializable {
      * Remove the string {@code element} from the trie. Also, clean up unneeded nodes with chars to save memory.
      * Works in O(|element|).
      *
-     * @param element  a string to remove
+     * @param element a string to remove
      * @return true if there were such an element, false otherwise
      */
     boolean remove(String element) {
@@ -103,7 +97,7 @@ public class Trie implements Serializable {
      * Count the number of strings in the trie that start exactly with the {@code prefix}
      * (i.e. those {@code s} for which s.startsWith(prefix) holds true). Works in O(|prefix|).
      *
-     * @param prefix  a prefix string to look for
+     * @param prefix a prefix string to look for
      * @return the number of string that start with {@code prefix}
      */
     int howManyStartsWithPrefix(String prefix) {
