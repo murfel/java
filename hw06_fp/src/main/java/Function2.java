@@ -1,3 +1,5 @@
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Represents a function that accepts two arguments and produces a result.
  * This is the two-arity specialization of Function1.
@@ -24,7 +26,8 @@ public abstract class Function2<A, B, C> {
      * @param <D> the type of output of the after function, and of the composed function
      * @return a composed function that first applies this function and then applies the after function
      */
-    public <D> Function2<A, B, D> compose(Function1<C, D> g) {
+    @NotNull
+    public <D> Function2<A, B, D> compose(@NotNull final Function1<C, D> g) {
         return new Function2<A, B, D>() {
             @Override
             public D apply(A a, B b) {
@@ -39,7 +42,8 @@ public abstract class Function2<A, B, C> {
      * @param a the value to bind the first argument to
      * @return a one argument function based on this function with its first argument bound to a
      */
-    public Function1<B, C> bind1(A a) {
+    @NotNull
+    public Function1<B, C> bind1(final A a) {
         return new Function1<B, C>() {
             @Override
             public C apply(B b) {
@@ -52,9 +56,10 @@ public abstract class Function2<A, B, C> {
      * Apply this function partially binding its second argument to always equal to b.
      *
      * @param b the value to bind the second argument to
-     * @return b one argument function based on this function with its second argument bound to b
+     * @return a one argument function based on this function with its second argument bound to b
      */
-    public Function1<A, C> bind2(B b) {
+    @NotNull
+    public Function1<A, C> bind2(final B b) {
         return new Function1<A, C>() {
             @Override
             public C apply(A a) {
@@ -69,16 +74,12 @@ public abstract class Function2<A, B, C> {
      *
      * @return a one-argument function which returns a one-argument function
      */
+    @NotNull
     public Function1<A, Function1<B, C>> curry() {
         return new Function1<A, Function1<B, C>>() {
             @Override
             public Function1<B, C> apply(A a) {
-                return new Function1<B, C>() {
-                    @Override
-                    public C apply(B b) {
-                        return Function2.this.apply(a, b);
-                    }
-                };
+                return bind1(a);
             }
         };
     }
