@@ -24,6 +24,13 @@ public class ZipProcessor {
         }
     }
 
+    /**
+     * Look for all zip archives in path, extract from them all the files that satisfy
+     * a regular expression give as a String pattern.
+     *
+     * @param path a path to look for zip archives
+     * @param pattern a pattern for files in zip archives to extract
+     */
     public static void process(String path, String pattern) {
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
