@@ -5,7 +5,9 @@ import java.util.ArrayList;
  * The usual push and pop operations are provided.
  */
 public class Stack<E> {
-    private ArrayList<E> stack = new ArrayList<>();
+    @SuppressWarnings("unchecked")
+    private E[] stack = (E[]) new Object[1];
+    private int size;
 
     /**
      * Removes the object at the top of this stack and returns that object as the value of this function.
@@ -13,7 +15,7 @@ public class Stack<E> {
      * @return The object at the top of this stack.
      */
     E pop() {
-        return stack.remove(stack.size() - 1);
+        return stack[--size];
     }
 
     /**
@@ -23,14 +25,23 @@ public class Stack<E> {
      * @return the item argument
      */
     E push(E item) {
-        stack.add(item);
-        return item;
+        if (size == stack.length) {
+            E[] oldStack = stack;
+            @SuppressWarnings("unchecked")
+            E[] newStack = (E[]) new Object[oldStack.length * 2];
+            stack = newStack;
+            System.arraycopy(oldStack, 0, stack, 0, oldStack.length);
+        }
+        return stack[size++] = item;
     }
 
     /**
      * Removes all of the elements from this Stack.
      */
     void clear() {
-        stack.clear();
+        size = 0;
+        @SuppressWarnings("unchecked")
+        E[] newStack = (E[]) new Object[1];
+        stack = newStack;
     }
 }
