@@ -19,22 +19,22 @@ public class NumberProcessor {
         FileInputStream fis = new FileInputStream(input);
         Reader reader = new InputStreamReader(fis);
         Scanner scanner = new Scanner(reader).useDelimiter("\\n");
-        ArrayList<Maybe<Integer>> list = new ArrayList<>();
+        ArrayList<name.murfel.java.hw05.Maybe<Integer>> list = new ArrayList<>();
         while (scanner.hasNext()) {
             if (scanner.hasNextInt()) {
                 int x = scanner.nextInt();
-                list.add(Maybe.just(x));
+                list.add(name.murfel.java.hw05.Maybe.just(x));
             }
             else {
                 scanner.next();
-                list.add(Maybe.nothing());
+                list.add(name.murfel.java.hw05.Maybe.nothing());
             }
         }
 
         FileOutputStream fos = new FileOutputStream(output);
         Writer writer = new OutputStreamWriter(fos);
-        for (Maybe<Integer> maybe : list) {
-            Maybe<Integer> processed = maybe.map(i -> i * i);
+        for (name.murfel.java.hw05.Maybe<Integer> maybe : list) {
+            name.murfel.java.hw05.Maybe<Integer> processed = maybe.map(i -> i * i);
             writer.append(processed.isPresent() ? processed.get().toString() : "null");
             writer.write('\n');
         }

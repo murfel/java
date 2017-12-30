@@ -1,3 +1,5 @@
+package name.murfel.java.hw05;
+
 import java.io.*;
 import java.util.Scanner;
 

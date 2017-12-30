@@ -1,39 +1,27 @@
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
 /**
  * A wrapper for a data type.
  *
- * @param <T>  the type of stored data
+ * @param <T> the type of stored data
  */
 public class Maybe<T> {
-    private boolean isPresent;
-    private T data;
-
-    private Maybe() {
-    }
-
-    private Maybe(T t) {
-        data = t;
-        isPresent = true;
-    }
-
     /**
      * Instantiate a new Maybe object with t as data.
      *
-     * @param t  data to store
+     * @param t data to store
      * @return new Maybe object wrapping t
      */
-    @NotNull
-    public static <T> Maybe<T> just(T t) {
+    public static <T> Maybe<T> just(@NotNull T t) {
         return new Maybe<>(t);
     }
 
     /**
      * Instantiate a new empty Maybe object.
      *
-     * @return new empty Maybe object
+     * @return new Maybe object
      */
     public static <T> Maybe<T> nothing() {
         return new Maybe<>();
@@ -43,27 +31,26 @@ public class Maybe<T> {
      * Get the data stored in Maybe.
      *
      * @return the data stored in Maybe
-     * @throws MaybeException if no data is present in this
+     * @throws EmptyMaybeDataRequestedException if no data is present in this
      */
-    public T get() throws MaybeException {
+    public T get() throws EmptyMaybeDataRequestedException {
         if (!isPresent) {
-            throw new MaybeException();
+            throw new EmptyMaybeDataRequestedException();
         }
         return data;
     }
 
-
     /**
      * Check the presents of data.
      *
-     * @return  true if there are data, false otherwise
+     * @return true if there are data, false otherwise
      */
     public boolean isPresent() {
         return isPresent;
     }
 
     /**
-     * Apply mapper to the data stored in Maybe. If there are no data, i.e. not isPresent(), return a new empty Maybe object.
+     * Apply mapper to the data stored in Maybe. If there are no data, i.e. not isPresent(), return an empty Maybe object.
      *
      * @param mapper
      * @param <U>
@@ -74,6 +61,17 @@ public class Maybe<T> {
         if (isPresent) {
             return new Maybe<U>(mapper.apply(data));
         }
-        return new Maybe<>();
+        return Maybe.nothing();
+    }
+
+    private boolean isPresent;
+    private T data;
+
+    private Maybe() {
+    }
+
+    private Maybe(T t) {
+        data = t;
+        isPresent = true;
     }
 }
