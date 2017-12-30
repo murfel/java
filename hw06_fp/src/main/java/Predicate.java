@@ -1,7 +1,7 @@
 /**
  * Represents a predicate (boolean-valued function) of one argument.
  *
- * @param <T>  the type of the input to the predicate
+ * @param <T> the type of the input to the predicate
  */
 public abstract class Predicate<T> extends Function1<T, Boolean> {
 
@@ -9,7 +9,7 @@ public abstract class Predicate<T> extends Function1<T, Boolean> {
      * Returns a composed predicate that represents a short-circuiting logical OR of this predicate and another.
      * When evaluating the composed predicate, if this predicate is true, then the other predicate is not evaluated.
      *
-     * @param p  a predicate that will be logically-ORed with this predicate
+     * @param p a predicate that will be logically-ORed with this predicate
      * @return a composed predicate that represents the short-circuiting logical OR
      * of this predicate and the other predicate
      */
@@ -26,7 +26,7 @@ public abstract class Predicate<T> extends Function1<T, Boolean> {
      * Returns a composed predicate that represents a short-circuiting logical AND of this predicate and another.
      * When evaluating the composed predicate, if this predicate is false, then the other predicate is not evaluated.
      *
-     * @param p  a predicate that will be logically-ANDed with this predicate
+     * @param p a predicate that will be logically-ANDed with this predicate
      * @return a composed predicate that represents the short-circuiting logical AND
      * of this predicate and the other predicate
      */
