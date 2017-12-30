@@ -6,18 +6,6 @@ package name.murfel.java.hw05;
  * @param <T> the type of elements stored in the set
  */
 public class Set<T extends Comparable<T>> {
-    private Node root;
-    private int size;
-
-    private class Node {
-        private Node left, right;
-        private T data;
-
-        Node(T data) {
-            this.data = data;
-        }
-    }
-
     /**
      * Add elem to the set. If there is already such an element, do nothing.
      *
@@ -72,4 +60,17 @@ public class Set<T extends Comparable<T>> {
     public int size() {
         return size;
     }
+
+    private class Node {
+        private Node left;
+        private Node right;
+        private T data;
+
+        Node(T data) {
+            this.data = data;
+        }
+    }
+
+    private Node root;
+    private int size;
 }
