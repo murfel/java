@@ -1,9 +1,11 @@
+package name.murfel.java.hw05;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
 /**
- * A wrapper for a data type.
+ * A wrapper for a data type. It either stores an object of that data type, or represents an absence of such an object.
  *
  * @param <T> the type of stored data
  */
