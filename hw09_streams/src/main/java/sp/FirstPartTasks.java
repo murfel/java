@@ -1,10 +1,7 @@
 package sp;
 
-import com.sun.javafx.geom.transform.Identity;
-
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -41,10 +38,13 @@ public final class FirstPartTasks {
     public static List<Album> sortedFavorites(Stream<Album> albums) {
         return albums
                 .filter(album -> {
-                    for (Track track : album.getTracks())
-                        if (track.getRating() > 95)
-                            return true;
-                    return false;
+                    Track track = album.getTracks().stream().reduce(null, new BinaryOperator<Track>() {
+                        @Override
+                        public Track apply(Track track, Track track2) {
+                            return track2.getRating() > 95 ? track2 : track;
+                        }
+                    });
+                    return track != null && track.getRating() > 95;
                 })
                 .sorted(Comparator.comparing(Album::getName))
                 .collect(Collectors.toList());
@@ -70,13 +70,7 @@ public final class FirstPartTasks {
     public static long countAlbumDuplicates(Stream<Album> albums) {
         HashSet<Album> hashSet = new HashSet<>();
         return albums
-                .filter(album -> {
-                    if (hashSet.contains(album))
-                        return true;
-                    else
-                        hashSet.add(album);
-                    return false;
-                })
+                .filter(album -> !hashSet.add(album))
                 .count();
     }
 
