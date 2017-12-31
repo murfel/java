@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /**
  * The Stack class represents a last-in-first-out (LIFO) stack of objects.
  * The usual push and pop operations are provided.
@@ -21,7 +19,7 @@ public class Stack<E> {
     /**
      * Pushes an item onto the top of this stack.
      *
-     * @param item  the item to be pushed onto this stack
+     * @param item the item to be pushed onto this stack
      * @return the item argument
      */
     E push(E item) {
@@ -33,15 +31,5 @@ public class Stack<E> {
             System.arraycopy(oldStack, 0, stack, 0, oldStack.length);
         }
         return stack[size++] = item;
-    }
-
-    /**
-     * Removes all of the elements from this Stack.
-     */
-    void clear() {
-        size = 0;
-        @SuppressWarnings("unchecked")
-        E[] newStack = (E[]) new Object[1];
-        stack = newStack;
     }
 }

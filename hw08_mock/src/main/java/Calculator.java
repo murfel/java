@@ -119,14 +119,15 @@ public class Calculator {
     /**
      * Calculate the result of an expression in postfix notation.
      * Calculation uses the stack provided at the time this object was instantiated.
-     * One instance of Calculator can calculate multiple expressions, every time it will use the same stack
-     * clearing it before the start.
+     * One instance of Calculator can calculate multiple expressions, every time it will use the same stack.
+     * <p>
+     * The expression is not checked for correctness
+     * and an incorrect expression still can be evaluated to some fakish result.
      *
      * @param expr an expression in postfix notation
      * @return the result of the computation
      */
     public Integer calculate(ArrayList<Token> expr) {
-        stack.clear();
         for (Token token : expr) {
             if (token.type == Type.NUMBER) {
                 stack.push(token.number);
@@ -158,6 +159,7 @@ public class Calculator {
             type = Type.NUMBER;
             this.number = number;
         }
+
         Token(String token) {
             if (token.equals("(") || token.equals(")"))
                 type = Type.PARENTHESIS;
