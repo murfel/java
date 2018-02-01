@@ -1,3 +1,5 @@
+package name.murfel.java.hw06;
+
 /**
  * Represents a predicate (boolean-valued function) of one argument.
  *

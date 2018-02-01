@@ -1,3 +1,5 @@
+package name.murfel.java.hw06;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;

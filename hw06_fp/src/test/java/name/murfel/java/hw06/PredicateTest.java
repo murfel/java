@@ -1,3 +1,5 @@
+package name.murfel.java.hw06;
+
 import org.junit.Test;
 
 import java.util.ArrayList;

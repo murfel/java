@@ -1,3 +1,5 @@
+package name.murfel.java.hw06;
+
 import static org.junit.Assert.assertEquals;
 
 public class Function1Test {
