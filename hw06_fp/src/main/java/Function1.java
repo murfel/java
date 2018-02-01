@@ -1,3 +1,5 @@
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Represents a function that accepts one argument and produces a result.
  *
@@ -22,7 +24,8 @@ public abstract class Function1<T, R> {
      * @param <V> the type of output of the function g, and of the composed function
      * @return a composed function that first applies this function and then applies the function g
      */
-    public <V> Function1<T, V> compose(Function1<? super R, ? extends V> g) {
+    @NotNull
+    public <V> Function1<T, V> compose(@NotNull final Function1<? super R, ? extends V> g) {
         return new Function1<T, V>() {
             @Override
             public V apply(T t) {
