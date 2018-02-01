@@ -1,6 +1,6 @@
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class Function2Test {
     private Function1<String, Character> g = new Function1<String, Character>() {

@@ -2,8 +2,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static java.lang.Boolean.*;
-import static org.junit.Assert.*;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+import static org.junit.Assert.assertEquals;
 
 public class PredicateTest {
     private Predicate<Integer> isDivisibleBy3 = new Predicate<Integer>() {
@@ -16,7 +17,7 @@ public class PredicateTest {
     /**
      * A perfect number is a positive integer that is equal to the sum
      * of its positive divisors excluding the number itself.
-     *
+     * <p>
      * For example, 6 and 28 are perfect since 1 + 2 + 3 = 6
      * and 1 + 2 + 4 + 7 + 14 = 28.
      */
