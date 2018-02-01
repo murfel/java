@@ -14,7 +14,7 @@ public class NumberProcessor {
      * Otherwise, write "null" on the corresponding line.
      *
      * @param input  name of the input file to read from
-     * @param output  name of the output file to write to
+     * @param output name of the output file to write to
      * @throws IOException
      */
     public static void processNumbers(File input, File output) throws IOException {
@@ -26,8 +26,7 @@ public class NumberProcessor {
             if (scanner.hasNextInt()) {
                 int x = scanner.nextInt();
                 list.add(name.murfel.java.hw05.Maybe.just(x));
-            }
-            else {
+            } else {
                 scanner.next();
                 list.add(name.murfel.java.hw05.Maybe.nothing());
             }

@@ -10,6 +10,17 @@ import java.util.function.Function;
  * @param <T> the type of stored data
  */
 public class Maybe<T> {
+    private boolean isPresent;
+    private T data;
+
+    private Maybe() {
+    }
+
+    private Maybe(T t) {
+        data = t;
+        isPresent = true;
+    }
+
     /**
      * Instantiate a new Maybe object with t as data.
      *
@@ -52,10 +63,10 @@ public class Maybe<T> {
     }
 
     /**
-     * Apply mapper to the data stored in Maybe. If there are no data, i.e. not isPresent(), return an empty Maybe object.
+     * Apply mapper to the data stored in Maybe.
+     * If there are no data, i.e. not isPresent(), return an empty Maybe object.
      *
-     * @param mapper
-     * @param <U>
+     * @param mapper a function to apply to the data
      * @return new Maybe object storing the result of mapper application to data stored in this
      * or new empty Maybe object if there are no data in this.
      */
@@ -64,16 +75,5 @@ public class Maybe<T> {
             return new Maybe<U>(mapper.apply(data));
         }
         return Maybe.nothing();
-    }
-
-    private boolean isPresent;
-    private T data;
-
-    private Maybe() {
-    }
-
-    private Maybe(T t) {
-        data = t;
-        isPresent = true;
     }
 }

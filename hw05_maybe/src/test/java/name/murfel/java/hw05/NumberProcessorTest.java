@@ -3,7 +3,7 @@ package name.murfel.java.hw05;
 import java.io.*;
 import java.util.Scanner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class NumberProcessorTest {
     @org.junit.Test
