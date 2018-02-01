@@ -1,11 +1,14 @@
-import java.io.Serializable;
+import java.io.*;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Implement the Trie data structure for storing (adding and removing) unique strings in a way allowing effective lookup
  * and an interface to count how many strings start with the given prefix.
  */
-public class Trie implements Serializable {
+public class Trie {
+    private Node root = new Node();
+
     /**
      * Add the string {@code element} to the trie. If such a string is already present in the trie, do nothing, as
      * copies are not allowed.
@@ -68,12 +71,10 @@ public class Trie implements Serializable {
         }
         node.isTerminating = false;
 
-        char curChar;
-        Node prevNode;
         node = root;
         for (int i = 0; i < element.length(); i++) {
-            curChar = element.charAt(i);
-            prevNode = node;
+            char curChar = element.charAt(i);
+            Node prevNode = node;
             node = node.children.get(curChar);
             if (node.terminatingChildrenCount == 0 && !node.isTerminating) {
                 prevNode.children.remove(curChar);
@@ -111,11 +112,56 @@ public class Trie implements Serializable {
         return node.terminatingChildrenCount + (node.isTerminating ? 1 : 0);
     }
 
+    void serialize(OutputStream out) throws IOException {
+        root.serialize(out);
+    }
+
+    void deserialize(InputStream in) throws IOException {
+        root.deserialize(in);
+    }
+
     private class Node {
         private boolean isTerminating;
         private int terminatingChildrenCount;  // not including yourself
         private HashMap<Character, Node> children = new HashMap<Character, Node>();
-    }
 
-    private Node root = new Node();
+        /**
+         * Serialize a tree with the root this in dfs order.
+         * Print info about yourself, then print the number of children,
+         * and then info about each of your children starting with a Character on the edge to a child.
+         *
+         * @param out a stream to serialize into
+         * @throws IOException whenever ObjectOutputStream.write* throws
+         */
+        void serialize(OutputStream out) throws IOException {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(out);
+            objectOutputStream.writeBoolean(isTerminating);
+            objectOutputStream.writeInt(terminatingChildrenCount);
+            objectOutputStream.writeInt(children.size());
+            objectOutputStream.flush();
+            for (Map.Entry<Character, Node> entry : children.entrySet()) {
+                objectOutputStream.writeObject(entry.getKey());
+                objectOutputStream.flush();
+                entry.getValue().serialize(out);
+            }
+
+        }
+
+        void deserialize(InputStream in) throws IOException {
+            ObjectInputStream objectInputStream = new ObjectInputStream(in);
+            isTerminating = objectInputStream.readBoolean();
+            terminatingChildrenCount = objectInputStream.readInt();
+            int size = objectInputStream.readInt();
+            for (int i = 0; i < size; i++) {
+                try {
+                    Character character = (Character) objectInputStream.readObject();
+                    Node node = new Node();
+                    node.deserialize(in);
+                    children.put(character, node);
+                } catch (ClassNotFoundException e) {
+                    throw new IOException("InputStream in does not contain a correct trie");
+                }
+            }
+        }
+    }
 }

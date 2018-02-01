@@ -1,3 +1,6 @@
+import org.junit.Test;
+
+import java.io.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -207,7 +210,7 @@ public class TrieTest {
     @org.junit.Test
     public void howManyStartsWithPrefixMultipleElements() throws Exception {
         Trie trie = new Trie();
-        // Arrays.asList("A", "to", "tea", "ted", "ten", "i", "in", "inn");
+        // mediumSample = Arrays.asList("A", "to", "tea", "ted", "ten", "i", "in", "inn");
         for (String s : mediumSample) {
             trie.add(s);
         }
@@ -218,5 +221,37 @@ public class TrieTest {
         assertEquals(3, trie.howManyStartsWithPrefix("te"));
         assertEquals(3, trie.howManyStartsWithPrefix("i"));
         assertEquals(2, trie.howManyStartsWithPrefix("in"));
+    }
+
+    @org.junit.Test
+    public void serializeAndDeserializeEmpty() throws Exception {
+        String filename = "serialize.test";
+        OutputStream os = new FileOutputStream(filename);
+        Trie trie = new Trie();
+        trie.serialize(os);
+
+        InputStream is = new FileInputStream(filename);
+        Trie newTrie = new Trie();
+        newTrie.deserialize(is);
+    }
+
+    @org.junit.Test
+    public void serializeAndDeserializeSmallSample() throws Exception {
+        String filename = "serialize.test";
+        OutputStream os = new FileOutputStream(filename);
+        Trie trie = new Trie();
+        for (String s : smallSample) {
+            trie.add(s);
+        }
+        trie.serialize(os);
+
+        InputStream is = new FileInputStream(filename);
+        Trie newTrie = new Trie();
+        newTrie.deserialize(is);
+
+        assertEquals(trie.size(), newTrie.size());
+        for (String s : smallSample) {
+            assertTrue(newTrie.contains(s));
+        }
     }
 }
