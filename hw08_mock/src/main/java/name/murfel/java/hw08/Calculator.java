@@ -45,7 +45,7 @@ public class Calculator {
      * with spaces between every token (a token is either a number, or a character from "+-*\/()")
      * and print out the result of this computation to System.out.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws EmptyStackException {
         Scanner reader = new Scanner(System.in);
         String input = reader.nextLine();
 
@@ -129,7 +129,7 @@ public class Calculator {
      * @param expr an expression in postfix notation
      * @return the result of the computation
      */
-    public Integer calculate(ArrayList<Token> expr) {
+    public Integer calculate(ArrayList<Token> expr) throws EmptyStackException {
         for (Token token : expr) {
             if (token.type == Type.NUMBER) {
                 stack.push(token.number);

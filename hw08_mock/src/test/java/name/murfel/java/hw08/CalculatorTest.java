@@ -12,7 +12,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class CalculatorTest {
-    private static <T> Stack<T> getMockedMyStack() {
+    private static <T> Stack<T> getMockedMyStack() throws EmptyStackException {
         @SuppressWarnings("unchecked")
         Stack<T> mockedStack = mock(Stack.class);
         java.util.Stack<T> behindStack = new java.util.Stack<>();
@@ -117,7 +117,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void calculateWithMockSubstituteSingleValue() {
+    public void calculateWithMockSubstituteSingleValue() throws EmptyStackException {
         @SuppressWarnings("unchecked")
         Stack<Integer> mockStack = mock(Stack.class);
         when(mockStack.pop()).thenReturn(555);
@@ -129,7 +129,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void calculateWithMockSubstituteValuesForZeros() {
+    public void calculateWithMockSubstituteValuesForZeros() throws EmptyStackException {
         @SuppressWarnings("unchecked")
         Stack<Integer> mockStack = mock(Stack.class);
         when(mockStack.pop()).thenReturn(0);
@@ -143,7 +143,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void calculateWithMockSimple() {
+    public void calculateWithMockSimple() throws EmptyStackException {
         Calculator calculator = new Calculator(getMockedMyStack());
         // 6 2 / = 6 / 2 = 3
         ArrayList<Calculator.Token> expr = new ArrayList<>(Arrays.asList(
@@ -155,7 +155,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void calculateWithMockComplex() {
+    public void calculateWithMockComplex() throws EmptyStackException {
         Calculator calculator = new Calculator(getMockedMyStack());
         // (1 + 2) * 3 - (8 / 4) = 7
         // 1 2 + 3 * 8 4 / - = 7

@@ -14,7 +14,10 @@ public class Stack<E> {
      *
      * @return The object at the top of this stack.
      */
-    E pop() {
+    E pop() throws EmptyStackException {
+        if (size == 0) {
+            throw new EmptyStackException();
+        }
         return stack[--size];
     }
 
