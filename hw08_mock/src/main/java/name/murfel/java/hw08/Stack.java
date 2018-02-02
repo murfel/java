@@ -1,3 +1,5 @@
+package name.murfel.java.hw08;
+
 /**
  * The Stack class represents a last-in-first-out (LIFO) stack of objects.
  * The usual push and pop operations are provided.
