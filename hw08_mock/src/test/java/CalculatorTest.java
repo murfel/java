@@ -26,8 +26,8 @@ public class CalculatorTest {
         return mockedStack;
     }
 
-    @org.junit.Test
-    public void getInfixExpressionSimple() throws Exception {
+    @Test
+    public void getInfixExpressionSimple() {
         Calculator calc = new Calculator(new Stack<>());
         String input = "6 / 2";
         ArrayList<Calculator.Token> actual = calc.getInfixExpression(input);
@@ -39,8 +39,8 @@ public class CalculatorTest {
         assertEquals(expected, actual);
     }
 
-    @org.junit.Test
-    public void getInfixExpressionComplex() throws Exception {
+    @Test
+    public void getInfixExpressionComplex() {
         Calculator calc = new Calculator(new Stack<>());
         String input = "( 1 + 2 ) * 3 - ( 8 / 4 )";
         ArrayList<Calculator.Token> expected = new ArrayList<>(Arrays.asList(
@@ -62,8 +62,8 @@ public class CalculatorTest {
         assertEquals(expected, actual);
     }
 
-    @org.junit.Test
-    public void infixToPostfixSimple() throws Exception {
+    @Test
+    public void infixToPostfixSimple() {
         Calculator calc = new Calculator(new Stack<>());
         ArrayList<Calculator.Token> input = new ArrayList<>(Arrays.asList(
                 new Calculator.Token(1),
@@ -79,8 +79,8 @@ public class CalculatorTest {
         assertEquals(expected, actual);
     }
 
-    @org.junit.Test
-    public void infixToPostfixComplex() throws Exception {
+    @Test
+    public void infixToPostfixComplex() {
         // (1 + 2) * 3 - (8 / 4) →
         // 1 2 + 3 * 8 4 / -
         Calculator calc = new Calculator(new Stack<>());
@@ -114,8 +114,8 @@ public class CalculatorTest {
         assertEquals(expected, actual);
     }
 
-    @org.junit.Test
-    public void calculateWithMockSubstituteSingleValue() throws Exception {
+    @Test
+    public void calculateWithMockSubstituteSingleValue() {
         @SuppressWarnings("unchecked")
         Stack<Integer> mockStack = mock(Stack.class);
         when(mockStack.pop()).thenReturn(555);
@@ -126,8 +126,8 @@ public class CalculatorTest {
         assertEquals(new Integer(555), calc.calculate(expr));
     }
 
-    @org.junit.Test
-    public void calculateWithMockSubstituteValuesForZeros() throws Exception {
+    @Test
+    public void calculateWithMockSubstituteValuesForZeros() {
         @SuppressWarnings("unchecked")
         Stack<Integer> mockStack = mock(Stack.class);
         when(mockStack.pop()).thenReturn(0);

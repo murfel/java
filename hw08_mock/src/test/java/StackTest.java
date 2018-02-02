@@ -4,13 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 public class StackTest {
     @Test
-    public void pushOne() throws Exception {
+    public void pushOne() {
         Stack<Integer> stack = new Stack<>();
         assertEquals(new Integer(1), stack.push(1));
     }
 
     @Test
-    public void pushMultiple() throws Exception {
+    public void pushMultiple() {
         Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < 5; i++) {
             assertEquals(new Integer(i), stack.push(i));
@@ -18,14 +18,14 @@ public class StackTest {
     }
 
     @Test
-    public void pushPopOne() throws Exception {
+    public void pushPopOne() {
         Stack<Integer> stack = new Stack<>();
         assertEquals(new Integer(1), stack.push(1));
         assertEquals(new Integer(1), stack.pop());
     }
 
     @Test
-    public void pushPopMultiple() throws Exception {
+    public void pushPopMultiple() {
         Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < 5; i++) {
             assertEquals(new Integer(i), stack.push(i));
@@ -36,7 +36,7 @@ public class StackTest {
     }
 
     @Test
-    public void pushPopMultipleMixed() throws Exception {
+    public void pushPopMultipleMixed() {
         Stack<Integer> stack = new Stack<>();
         assertEquals(new Integer(1), stack.push(1));
         assertEquals(new Integer(2), stack.push(2));
