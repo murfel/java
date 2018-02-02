@@ -261,37 +261,11 @@ public class MyTreeSetClass<E> extends AbstractSet<E> implements MyTreeSet<E> {
         }
 
         public E higher(E e) {
-            E higher = null;
-            Node node = root;
-            while (node != null) {
-                if (comparator.compare(e, node.element) >= 0) {
-                    node = getRight(node);
-                } else {
-                    if (higher == null || comparator.compare(higher, node.element) > 0) {
-                        higher = node.element;
-                    }
-                    node = getLeft(node);
-                }
-            }
-            return higher;
+            return descendingSet().lower(e);
         }
 
         public E ceiling(E e) {
-            E ceiling = null;
-            Node node = root;
-            while (node != null) {
-                if (comparator.compare(e, node.element) > 0) {
-                    node = getRight(node);
-                } else if (comparator.compare(e, node.element) < 0) {
-                    if (ceiling == null || comparator.compare(ceiling, node.element) > 0) {
-                        ceiling = node.element;
-                    }
-                    node = getLeft(node);
-                } else {
-                    return node.element;
-                }
-            }
-            return ceiling;
+            return descendingSet().floor(e);
         }
 
         public int size() {
