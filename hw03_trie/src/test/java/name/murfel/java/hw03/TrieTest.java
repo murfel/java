@@ -236,6 +236,10 @@ public class TrieTest {
         InputStream is = new FileInputStream(filename);
         Trie newTrie = new Trie();
         newTrie.deserialize(is);
+
+        assertEquals(0, newTrie.size());
+        assertFalse(newTrie.contains(""));
+        assertEquals(0, newTrie.howManyStartsWithPrefix(""));
     }
 
     @org.junit.Test
