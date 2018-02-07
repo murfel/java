@@ -114,13 +114,8 @@ public class Reflector {
      * (i.e. an element would be repeated how many times it was repeated in A plus how many times it was repeated in B).
      */
     public static class SymmetricDifference<T extends Comparable<T>> {
-        public List<T> firstMinusSecond;
-        public List<T> secondMinusFirst;
-
-        public SymmetricDifference() {
-            firstMinusSecond = new LinkedList<>();
-            secondMinusFirst = new LinkedList<>();
-        }
+        public List<T> firstMinusSecond = new LinkedList<>();
+        public List<T> secondMinusFirst = new LinkedList<>();
     }
 
     /**
