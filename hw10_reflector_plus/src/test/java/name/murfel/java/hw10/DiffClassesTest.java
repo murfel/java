@@ -47,7 +47,7 @@ public class DiffClassesTest {
 
     @org.junit.Test
     public void countsNumberOfFields() {
-        testDiffClasses(TestClasses.HasFieldA.class, TestClasses.HasTwoSameFields.class, "- int \n");
+        testDiffClasses(TestClasses.HasFieldA.class, TestClasses.HasTwoSameFields.class, "- int " + System.lineSeparator());
     }
 
     @org.junit.Test
@@ -58,15 +58,15 @@ public class DiffClassesTest {
     @org.junit.Test
     public void complicatedFieldWithoutModifier() {
         testDiffClasses(TestClasses.HasComplicatedFieldA.class, TestClasses.HasComplicatedFieldWithoutModifier.class,
-                "+ protected final java.util.List<java.lang.String> \n" +
-                        "- protected java.util.List<java.lang.String> \n");
+                "+ protected final java.util.List<java.lang.String> " + System.lineSeparator() +
+                        "- protected java.util.List<java.lang.String> " + System.lineSeparator());
     }
 
     @org.junit.Test
     public void complicatedFieldWithAnotherType() {
         testDiffClasses(TestClasses.HasComplicatedFieldA.class, TestClasses.HasComplicatedFieldWithOtherType.class,
-                "+ protected final java.util.List<java.lang.String> \n" +
-                        "- protected final java.util.List<java.lang.Integer> \n");
+                "+ protected final java.util.List<java.lang.String> " + System.lineSeparator() +
+                        "- protected final java.util.List<java.lang.Integer> " + System.lineSeparator());
     }
 
     @org.junit.Test
@@ -85,14 +85,14 @@ public class DiffClassesTest {
     @org.junit.Test
     public void countsNumberOfMethods() {
         testDiffClasses(TestClasses.HasMethodA.class, TestClasses.HasTwoSameMethods.class,
-                "- void () \n");
+                "- void () " + System.lineSeparator());
     }
 
     @org.junit.Test
     public void looksOnParam() {
         testDiffClasses(TestClasses.HasMethodA.class, TestClasses.HasMethodWithParamA.class,
-                "+ void () \n" +
-                        "- void (int ) \n");
+                "+ void () " + System.lineSeparator() +
+                        "- void (int ) " + System.lineSeparator());
     }
 
     @org.junit.Test
@@ -104,29 +104,29 @@ public class DiffClassesTest {
     @org.junit.Test
     public void looksOnParamType() {
         testDiffClasses(TestClasses.HasMethodWithParamA.class, TestClasses.HasMethodWithAnotherParam.class,
-                "+ void (int ) \n" +
-                        "- void (boolean ) \n");
+                "+ void (int ) " + System.lineSeparator() +
+                        "- void (boolean ) " + System.lineSeparator());
     }
 
     @org.junit.Test
     public void looksOnModifier() {
         testDiffClasses(TestClasses.HasMethodA.class, TestClasses.HasMethodWithAnotherModifier.class,
-                "+ void () \n" +
-                        "- public void () \n");
+                "+ void () " + System.lineSeparator() +
+                        "- public void () " + System.lineSeparator());
     }
 
     @org.junit.Test
     public void looksOnReturnType() {
         testDiffClasses(TestClasses.HasMethodA.class, TestClasses.HasMethodWithAnotherReturnType.class,
-                "+ void () \n" +
-                        "- int () \n");
+                "+ void () " + System.lineSeparator() +
+                        "- int () " + System.lineSeparator());
     }
 
     @org.junit.Test
     public void looksOnObjectParam() {
         testDiffClasses(TestClasses.HasMethodWithObjectParam.class, TestClasses.HasMethodWithAnotherObjectParam.class,
-                "+ void (java.lang.Integer ) \n" +
-                        "- void (java.lang.Boolean ) \n");
+                "+ void (java.lang.Integer ) " + System.lineSeparator() +
+                        "- void (java.lang.Boolean ) " + System.lineSeparator());
     }
 
     @org.junit.Test
@@ -138,8 +138,8 @@ public class DiffClassesTest {
     @org.junit.Test
     public void looksOnObjectReturnType() {
         testDiffClasses(TestClasses.HasMethodWithObjectReturnTypeA.class, TestClasses.HasMethodWithAnotherObjectReturnType.class,
-                "+ java.lang.Integer () \n" +
-                        "- java.lang.Boolean () \n");
+                "+ java.lang.Integer () " + System.lineSeparator() +
+                        "- java.lang.Boolean () " + System.lineSeparator());
     }
 
     @org.junit.Test
@@ -151,15 +151,15 @@ public class DiffClassesTest {
     @org.junit.Test
     public void looksOnComplexMethods() {
         testDiffClasses(TestClasses.HasComplexMethodsA.class, TestClasses.HasOtherComplexMethods.class,
-                "- public java.util.List<java.lang.Integer> (int , java.lang.Integer , boolean ) \n");
+                "- public java.util.List<java.lang.Integer> (int , java.lang.Integer , boolean ) " + System.lineSeparator());
     }
 
 
     @org.junit.Test
     public void looksOnMethodsAndField() {
         testDiffClasses(TestClasses.HasOtherComplexMethods.class, TestClasses.HasComplexMethodsAndField.class,
-                "+ public java.util.List<java.lang.Integer> (int , java.lang.Integer , boolean ) \n" +
-                        "- int \n");
+                "+ public java.util.List<java.lang.Integer> (int , java.lang.Integer , boolean ) " + System.lineSeparator() +
+                        "- int " + System.lineSeparator());
     }
 
 
