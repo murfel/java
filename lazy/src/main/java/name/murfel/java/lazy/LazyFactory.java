@@ -3,38 +3,40 @@ package name.murfel.java.lazy;
 import java.util.function.Supplier;
 
 public class LazyFactory {
-    private static class SupplierResult<T> {
-        SupplierResult(T result) {
-            this.result = result;
-        }
-        private T result;
-    }
-
-    public static <T> Lazy<T> createLazy(Supplier<T> supplier) {
+    public static <T> Lazy<T> createSimpleLazy(Supplier<T> supplier1) {
         return new Lazy<T>() {
-            private SupplierResult<T> result;
+            private T result;
+            private Supplier<T> supplier = supplier1;
 
             @Override
             public T get() {
-                if (result == null) {
-                    result = new SupplierResult<>(supplier.get());
+                if (supplier != null) {
+                    result = supplier.get();
+                    supplier = null;
                 }
-                return result.result;
+                return result;
             }
         };
     }
 
-    public static <T> Lazy<T> createConcurrentLazy(Supplier<T> supplier) {
+    public static <T> Lazy<T> createConcurrentLazy(Supplier<T> supplier1) {
         return new Lazy<T>() {
-            private SupplierResult<T> result;
+            private T result;
+            private volatile Supplier<T> supplier = supplier1;
 
             @Override
             public T get() {
-                if (result == null) {
-                    result = new SupplierResult<>(supplier.get());
+                if (supplier != null) {
+                    synchronized (this) {
+                        if (supplier != null) {
+                            result = supplier.get();
+                            supplier = null;
+                        }
+                    }
                 }
-                return result.result;
+                return result;
             }
         };
     }
 }
+
