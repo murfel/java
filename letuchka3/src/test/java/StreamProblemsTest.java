@@ -2,6 +2,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -41,13 +42,13 @@ public class StreamProblemsTest {
         assertEquals(expected.mass, actual.mass, 1e-5);
     }
 
-    @org.junit.Test
-    public void task5() throws Exception {
-        String filename = "src/test/resources/numbers.txt";
-        int[] expected = {0,1,0,0,1,2,0,0,0,0};
-        StreamProblems.task5(filename);
+//    @org.junit.Test
+//    public void task5() throws Exception {
+//        String filename = "src/test/resources/numbers.txt";
+//        int[] expected = {0,1,0,0,1,2,0,0,0,0};
+//        StreamProblems.task5(filename);
 //        int[] actual = StreamProblems.task5(filename);
 //        assertEquals(expected, actual);
-    }
+//    }
 
 }
