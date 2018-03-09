@@ -8,7 +8,7 @@ import java.util.function.Function;
  * and to create a new asynchronous computation as a function of the result of this one.
  * The result can only be retrieved using method get when the computation has completed, blocking if necessary
  * until it is ready.
- *
+ * <p>
  * This interface is intended to be implemented as a nested class inside of a thread pool.
  *
  * @param <T>
@@ -34,7 +34,7 @@ public interface LightFuture<T> {
      * It also adds the new computation to the thread pool.
      *
      * @param function a function applied to the result which constitutes a new computation
-     * @param <U> the result of the function
+     * @param <U>      the result of the function
      * @return a new computation which is already added to the thread pool
      */
     <U> LightFuture<U> thenApply(Function<T, U> function);
