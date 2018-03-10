@@ -1,4 +1,6 @@
 language: java
-script: mvn clean verify
+script: ./run_travis.sh
+os: linux
 notifications:
   email: false
+
