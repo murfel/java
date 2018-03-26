@@ -1,6 +1,6 @@
 package name.murfel.java.pool;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class ThreadPool {
      * it will execute the task.
      *
      * @param supplier represents the task
-     * @param <T> the type of the task result
+     * @param <T>      the type of the task result
      * @return a LightFuture interface representing the task in the thread pool
      */
     @NotNull
@@ -51,7 +51,7 @@ public class ThreadPool {
     /**
      * Ask all the threads to terminate as soon as possible. No new tasks are picked from queue anymore at this point
      * but the threads will execute their current tasks until they finish.
-     *
+     * <p>
      * The tasks which will be left in the queue will have {@code isReady() == False}
      * until someone explicitly calls their {@code get()}.
      */
@@ -109,7 +109,7 @@ public class ThreadPool {
         /**
          * Run forever until interrupted (e.g. by calling {@code shutdown()} on the thread pool),
          * pick a task from queue, execute it, repeat.
-         *
+         * <p>
          * If a thread gets interrupted, it first finished the task which was already taken out of the queue
          * and only then terminates.
          */
