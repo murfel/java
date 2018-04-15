@@ -22,7 +22,7 @@ public class Md5Calculator {
      * @param bytes an array of bytes
      * @return hex string representation of bytes array
      */
-    private static String bytesToHexString(byte[] bytes) {
+    public static String bytesToHexString(byte[] bytes) {
         if (bytes == null) return null;
         StringBuilder hexString = new StringBuilder(2 * bytes.length);
         for (byte aByte : bytes) {
@@ -107,14 +107,14 @@ public class Md5Calculator {
     /**
      * Calculate an MD5 hash of a File object using one thread implementation.
      */
-    private static String singleThreadCalculator(File entry) throws IOException, NoSuchAlgorithmException {
+    public static String singleThreadCalculator(File entry) throws IOException, NoSuchAlgorithmException {
         return bytesToHexString(visitEntry(entry));
     }
 
     /**
      * Calculate an MD5 hash of a File object using multi thread implementation.
      */
-    private static String multiThreadCalculator(File entry) {
+    public static String multiThreadCalculator(File entry) {
         byte[] digest = (new ForkJoinPool()).invoke(new EntryHasher(entry));
         return bytesToHexString(digest);
     }
