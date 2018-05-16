@@ -3,16 +3,32 @@ package name.murfel.ftp;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
+import java.net.Socket;
 import java.util.logging.Logger;
 
 public class ServerWorker implements Runnable {
-    DataInputStream dis;
-    DataOutputStream dos;
+    private Socket clientSocket;
+    private DataInputStream dis;
+    private DataOutputStream dos;
+    private Boolean inInconsistentState = false;
 
-    public ServerWorker(DataInputStream dis, DataOutputStream dos) {
-        this.dis = dis;
-        this.dos = dos;
-        Logger.getAnonymousLogger().info("ServerWorker: created");
+    public ServerWorker(Socket clientSocket) {
+        this.clientSocket = clientSocket;
+        try {
+            dos = new DataOutputStream(clientSocket.getOutputStream());
+            dis = new DataInputStream(clientSocket.getInputStream());
+        } catch (IOException e) {
+            inInconsistentState = true;
+            try {
+                clientSocket.close();
+            } catch (IOException ignored) {
+            }
+        }
+        if (!inInconsistentState) {
+            Logger.getAnonymousLogger().info("ServerWorker: created");
+        } else {
+            Logger.getAnonymousLogger().info("ServerWorker: could not create, left in an inconsistent state");
+        }
     }
 
     public static void sendListResponse(@NotNull String dirname, @NotNull DataOutputStream dos) throws IOException {
@@ -66,6 +82,9 @@ public class ServerWorker implements Runnable {
 
     @Override
     public void run() {
+        if (inInconsistentState) {
+            return;
+        }
         Logger.getAnonymousLogger().info("ServerWorker: run");
         try {
             while (true) {
@@ -78,6 +97,8 @@ public class ServerWorker implements Runnable {
                 } else if (orderType == 2) {
                     sendGetResponse(pathname, dos);
                 } else {
+                    clientSocket.close();
+                    Logger.getAnonymousLogger().info("ServerWorker: received unknown order, closed socket");
                     break;
                 }
             }

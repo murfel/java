@@ -19,12 +19,10 @@ public class FtpServer {
         ExecutorService executorService = Executors.newFixedThreadPool(nThreads);
         try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
             while (true) {
-                try (
-                        Socket clientSocket = serverSocket.accept();
-                        DataOutputStream dos = new DataOutputStream(clientSocket.getOutputStream());
-                        DataInputStream dis = new DataInputStream(clientSocket.getInputStream());
-                ) {
-                    executorService.submit(new ServerWorker(dis, dos));
+                try {
+                    Socket clientSocket = serverSocket.accept();
+
+                    executorService.submit(new ServerWorker(clientSocket));
                     Logger.getAnonymousLogger().info("FtpServer: submitted a worker");
                 } catch (IOException e) {
                     e.printStackTrace();
