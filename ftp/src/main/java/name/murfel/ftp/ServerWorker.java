@@ -1,6 +1,7 @@
 package name.murfel.ftp;
 
 import org.jetbrains.annotations.NotNull;
+import sun.rmi.runtime.Log;
 
 import java.io.*;
 import java.net.Socket;
@@ -87,9 +88,16 @@ public class ServerWorker implements Runnable {
         }
         Logger.getAnonymousLogger().info("ServerWorker: run");
         try {
-            while (true) {
+            while (!clientSocket.isClosed()) {
                 Logger.getAnonymousLogger().info("ServerWorker: start reading a request");
-                int orderType = dis.readInt();
+                int orderType;
+                try {
+                    orderType = dis.readInt();
+                } catch (EOFException e) {
+                    Logger.getAnonymousLogger().info("ServerWorker: received EOF, closing socket");
+                    clientSocket.close();
+                    break;
+                }
                 String pathname = dis.readUTF();
                 Logger.getAnonymousLogger().info("ServerWorker: process request type " + orderType + " for " + pathname);
                 if (orderType == 1) {
@@ -97,8 +105,8 @@ public class ServerWorker implements Runnable {
                 } else if (orderType == 2) {
                     sendGetResponse(pathname, dos);
                 } else {
+                    Logger.getAnonymousLogger().info("ServerWorker: received unknown order, closing socket");
                     clientSocket.close();
-                    Logger.getAnonymousLogger().info("ServerWorker: received unknown order, closed socket");
                     break;
                 }
             }
