@@ -3,6 +3,7 @@ package name.murfel.ftp;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
+import java.util.logging.Logger;
 
 public class ServerWorker implements Runnable {
     DataInputStream dis;
@@ -11,6 +12,7 @@ public class ServerWorker implements Runnable {
     public ServerWorker(DataInputStream dis, DataOutputStream dos) {
         this.dis = dis;
         this.dos = dos;
+        Logger.getAnonymousLogger().info("ServerWorker: created");
     }
 
     public static void send_list_response(@NotNull String dirname, @NotNull DataOutputStream dos) throws IOException {
@@ -56,18 +58,23 @@ public class ServerWorker implements Runnable {
 
     @Override
     public void run() {
+        Logger.getAnonymousLogger().info("ServerWorker: run");
         try {
             while (true) {
+                Logger.getAnonymousLogger().info("ServerWorker: start reading a request");
                 int orderType = dis.readInt();
                 String pathname = dis.readUTF();
+                Logger.getAnonymousLogger().info("ServerWorker: process request type " + orderType + " for " + pathname);
                 if (orderType == 1) {
                     send_list_response(pathname, dos);
                 } else if (orderType == 2) {
                     send_get_response(pathname, dos);
+                } else {
+                    break;
                 }
             }
         } catch (IOException e) {
-            return;
+            e.printStackTrace();
         }
     }
 }

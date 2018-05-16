@@ -8,6 +8,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class FtpClient {
+    public static void send_goodbye(@NotNull String hostName, int portNumber) throws IOException {
+        try (
+                Socket socket = new Socket(hostName, portNumber);
+                DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+        ) {
+            dos.writeInt(0);
+        }
+    }
+
     public static List<ServerFile> process_list_request(@NotNull String hostName, int portNumber, @NotNull String dirname) throws IOException {
         try (
                 Socket socket = new Socket(hostName, portNumber);
