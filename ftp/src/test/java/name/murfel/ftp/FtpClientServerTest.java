@@ -7,23 +7,21 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.*;
-
 public class FtpClientServerTest {
 
     @Test
-    public void list_files() throws InterruptedException {
+    public void listFiles() throws InterruptedException {
         Thread serverThread = new Thread(() -> {
             Logger.getAnonymousLogger().info("ServerThread: go");
-            FtpServer.start_server(12345);
+            FtpServer.startServer(12345);
         });
 
         Thread clientThread = new Thread(() -> {
             Logger.getAnonymousLogger().info("ClientThread: go");
             try {
-                List<ServerFile> list = FtpClient.process_list_request("noxi", 12345, "./");
+                List<ServerFile> list = FtpClient.processListRequest("noxi", 12345, "./");
                 Logger.getAnonymousLogger().info("ClientThread: received response");
-//                FtpClient.send_goodbye("noxi", 4444);
+//                FtpClient.sendGoodbye("noxi", 4444);
                 System.out.println(list.size());
                 for (ServerFile file : list) {
                     System.out.println(file.name + " " + file.is_directory);

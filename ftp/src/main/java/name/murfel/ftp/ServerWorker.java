@@ -15,16 +15,19 @@ public class ServerWorker implements Runnable {
         Logger.getAnonymousLogger().info("ServerWorker: created");
     }
 
-    public static void send_list_response(@NotNull String dirname, @NotNull DataOutputStream dos) throws IOException {
+    public static void sendListResponse(@NotNull String dirname, @NotNull DataOutputStream dos) throws IOException {
         File dir = new File(dirname);
         if (!dir.exists() || !dir.isDirectory()) {
             dos.writeInt(0);
+            dos.flush();
+            return;
         }
 
         File[] files = dir.listFiles();
 
         if (files == null) {
             dos.write(0);
+            dos.flush();
             return;
         }
 
@@ -33,12 +36,15 @@ public class ServerWorker implements Runnable {
             dos.writeUTF(file.getName());
             dos.writeBoolean(file.isDirectory());
         }
+        dos.flush();
     }
 
-    public static void send_get_response(@NotNull String filename, @NotNull DataOutputStream dos) throws IOException {
+    public static void sendGetResponse(@NotNull String filename, @NotNull DataOutputStream dos) throws IOException {
         File file = new File(filename);
         if (!file.exists() || !file.isFile()) {
             dos.writeInt(0);
+            dos.flush();
+            return;
         }
 
         dos.writeLong(file.length());
@@ -47,6 +53,7 @@ public class ServerWorker implements Runnable {
             fis = new FileInputStream(file);
         } catch (FileNotFoundException e) {
             dos.writeInt(0);
+            dos.flush();
             return;
         }
         byte[] buffer = new byte[4096];
@@ -54,6 +61,7 @@ public class ServerWorker implements Runnable {
         while ((bytesRead = fis.read(buffer)) != -1) {
             dos.write(buffer, 0, bytesRead);
         }
+        dos.flush();
     }
 
     @Override
@@ -66,9 +74,9 @@ public class ServerWorker implements Runnable {
                 String pathname = dis.readUTF();
                 Logger.getAnonymousLogger().info("ServerWorker: process request type " + orderType + " for " + pathname);
                 if (orderType == 1) {
-                    send_list_response(pathname, dos);
+                    sendListResponse(pathname, dos);
                 } else if (orderType == 2) {
-                    send_get_response(pathname, dos);
+                    sendGetResponse(pathname, dos);
                 } else {
                     break;
                 }

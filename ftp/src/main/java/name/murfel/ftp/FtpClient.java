@@ -8,32 +8,34 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class FtpClient {
-    public static void send_goodbye(@NotNull String hostName, int portNumber) throws IOException {
+    public static void sendGoodbye(@NotNull String hostName, int portNumber) throws IOException {
         try (
                 Socket socket = new Socket(hostName, portNumber);
                 DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
         ) {
             dos.writeInt(0);
+            dos.flush();
         }
     }
 
-    public static List<ServerFile> process_list_request(@NotNull String hostName, int portNumber, @NotNull String dirname) throws IOException {
+    public static List<ServerFile> processListRequest(@NotNull String hostName, int portNumber, @NotNull String dirname) throws IOException {
         try (
                 Socket socket = new Socket(hostName, portNumber);
                 DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
         ) {
-            send_list_request(dos, dirname);
-            return receive_list_response(dis);
+            sendListRequest(dos, dirname);
+            return receiveListResponse(dis);
         }
     }
 
-    public static void send_list_request(@NotNull DataOutputStream dos, @NotNull String dirname) throws IOException {
+    public static void sendListRequest(@NotNull DataOutputStream dos, @NotNull String dirname) throws IOException {
         dos.writeInt(1);
         dos.writeUTF(dirname);
+        dos.flush();
     }
 
-    public static @NotNull List<ServerFile> receive_list_response(@NotNull DataInputStream dos) throws IOException {
+    public static @NotNull List<ServerFile> receiveListResponse(@NotNull DataInputStream dos) throws IOException {
         int size = dos.readInt();
         List<ServerFile> files = new LinkedList<>();
         for (int i = 0; i < size; i++) {
@@ -42,23 +44,24 @@ public class FtpClient {
         return files;
     }
 
-    public static void process_get_request(@NotNull String hostName, int portNumber, @NotNull String filename, @NotNull OutputStream os) throws IOException {
+    public static void processGetRequest(@NotNull String hostName, int portNumber, @NotNull String filename, @NotNull OutputStream os) throws IOException {
         try (
                 Socket socket = new Socket(hostName, portNumber);
                 DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
         ) {
-            send_get_request(dos, filename);
-            receive_get_response(dis, os);
+            sendGetRequest(dos, filename);
+            receiveGetResponse(dis, os);
         }
     }
 
-    public static void send_get_request(@NotNull DataOutputStream dos, @NotNull String filename) throws IOException {
+    public static void sendGetRequest(@NotNull DataOutputStream dos, @NotNull String filename) throws IOException {
         dos.writeInt(2);
         dos.writeUTF(filename);
+        dos.flush();
     }
 
-    public static void receive_get_response(@NotNull DataInputStream dis, @NotNull OutputStream os) throws IOException {
+    public static void receiveGetResponse(@NotNull DataInputStream dis, @NotNull OutputStream os) throws IOException {
         long bytes_need = dis.readLong();
         BufferedInputStream bis = new BufferedInputStream(dis);
         int BUFFER_SIZE = 4096;

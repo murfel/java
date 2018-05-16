@@ -10,11 +10,11 @@ import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 public class FtpServer {
-    public static void start_server(int portNumber) {
-        start_server(portNumber, 4);
+    public static void startServer(int portNumber) {
+        startServer(portNumber, 4);
     }
 
-    public static void start_server(int portNumber, int nThreads) {
+    public static void startServer(int portNumber, int nThreads) {
         Logger.getAnonymousLogger().info("FtpServer: starting");
         ExecutorService executorService = Executors.newFixedThreadPool(nThreads);
         try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
