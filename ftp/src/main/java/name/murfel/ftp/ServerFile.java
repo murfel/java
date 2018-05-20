@@ -1,5 +1,8 @@
 package name.murfel.ftp;
 
+/**
+ * Stores information about a file (file name and whether it is a directory) received from server.
+ */
 public class ServerFile {
     public String name;
     public boolean is_directory;

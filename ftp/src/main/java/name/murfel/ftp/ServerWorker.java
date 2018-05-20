@@ -6,12 +6,22 @@ import java.io.*;
 import java.net.Socket;
 import java.util.logging.Logger;
 
+/**
+ * A worker for FtpServer which is run in a separate thread for every client connection to server.
+ *
+ * The worker processes single client's requests.
+ */
 public class ServerWorker implements Runnable {
     private Socket clientSocket;
     private DataInputStream dis;
     private DataOutputStream dos;
     private Boolean inInconsistentState = false;
 
+    /**
+     * Prepares for conversation with client by initializing input and ouput streams.
+     *
+     * @param clientSocket a client's socket received from server
+     */
     public ServerWorker(Socket clientSocket) {
         this.clientSocket = clientSocket;
         try {
@@ -31,6 +41,13 @@ public class ServerWorker implements Runnable {
         }
     }
 
+    /**
+     * Sends a response to a list request according to the server's protocol.
+     *
+     * @param dirname directory name on the server side which should be listed
+     * @param dos client's output stream
+     * @throws IOException if an IO exception occurred during writing to client
+     */
     public static void sendListResponse(@NotNull String dirname, @NotNull DataOutputStream dos) throws IOException {
         File dir = new File(dirname);
         if (!dir.exists() || !dir.isDirectory()) {
@@ -55,6 +72,13 @@ public class ServerWorker implements Runnable {
         dos.flush();
     }
 
+    /**
+     * Sends a response to a get request accoring to the server's protocol.
+     *
+     * @param filename file name on the server side which content should be sent to client
+     * @param dos client's output stream
+     * @throws IOException if an IO exception occurred during writing to client
+     */
     public static void sendGetResponse(@NotNull String filename, @NotNull DataOutputStream dos) throws IOException {
         File file = new File(filename);
         if (!file.exists() || !file.isFile()) {

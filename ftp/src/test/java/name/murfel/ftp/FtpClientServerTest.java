@@ -46,7 +46,6 @@ public class FtpClientServerTest {
             try {
                 actual.addAll(FtpClient.processListRequest(HOSTNAME, 4444, "src/test/resources"));
                 Logger.getAnonymousLogger().info("ClientThread: received response");
-                FtpClient.sendGoodbye(HOSTNAME, 4444);
             } catch (IOException e) {
                 ioExceptionHappened[0] = true;
                 Logger.getAnonymousLogger().info("ClientThread: IOException");
