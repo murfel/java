@@ -106,6 +106,7 @@ public class FtpClientServerTest {
             Logger.getAnonymousLogger().info("ClientThread: go");
             try {
                 FtpClient.processGetRequest(HOSTNAME, 5555, filename, fos[0]);
+                fos[0].close()
             } catch (IOException e) {
                 ioExceptionHappened[0] = true;
                 Logger.getAnonymousLogger().info("ClientThread: IOException");
