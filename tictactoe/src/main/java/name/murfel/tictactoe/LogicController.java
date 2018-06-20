@@ -45,8 +45,8 @@ public class LogicController {
      * @return next mark
      */
     public static Mark nextMarkAfter(Mark mark) {
-        if (mark == Mark.Nought) {
-            return Mark.Nought;
+        if (mark == Mark.None) {
+            return Mark.None;
         }
         return mark == Mark.Cross ? Mark.Nought : Mark.Cross;
     }
