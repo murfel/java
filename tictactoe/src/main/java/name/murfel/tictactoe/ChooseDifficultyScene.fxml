@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+<VBox alignment="CENTER" spacing="15" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="name.murfel.tictactoe.ChooseDifficultyScene"
+      minHeight="400" minWidth="400">
+    <Button onMouseClicked="#easyClicked">Easy</Button>
+    <Button onMouseClicked="#hardClicked">Hard</Button>
+    <Button onMouseClicked="#backClicked">Back</Button>
+</VBox>
