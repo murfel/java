@@ -97,14 +97,15 @@ public class CountDownLatch {
     /**
      * Increments the counter.
      * <p>
-     * If the counter become equal one after being zero, wakes up one thread locked during the call
-     * to the {@code countDown} method.
+     * If the counter become equal one after being zero, wakes up all the threads locked during the call
+     * to the {@code countDown} method (but only one will effectively decrement the counter, while the others will
+     * return to sleeping).
      */
     public void countUp() {
         counterLock.lock();
         count++;
         if (count == 1) {
-            isPositive.signal();
+            isPositive.signalAll();
         }
         counterLock.unlock();
     }

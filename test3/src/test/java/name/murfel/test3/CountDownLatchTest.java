@@ -2,7 +2,8 @@ package name.murfel.test3;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class CountDownLatchTest {
 
@@ -79,5 +80,40 @@ public class CountDownLatchTest {
         thread.join();
         assertFalse(interruptedExceptionOccurred[0]);
         assertEquals(0, latch.getCount());
+    }
+
+    @Test
+    public void counterZeroSeveralThreadBlockOnCountDown() throws InterruptedException {
+        int threadCount = 10;  // doesn't work with threadCount > 1
+
+        CountDownLatch latch = new CountDownLatch(0);
+        boolean[] interruptedExceptionOccurred = new boolean[threadCount];
+        Thread[] threads = new Thread[threadCount];
+        for (int i = 0; i < threadCount; i++) {
+            interruptedExceptionOccurred[i] = false;
+            final int k = i;
+            threads[i] = new Thread(() -> {
+                try {
+                    latch.countDown();
+                } catch (InterruptedException e) {
+                    interruptedExceptionOccurred[k] = true;
+                }
+            });
+            threads[i].start();
+        }
+        Thread.sleep(1000);
+        for (int i = 0; i < threadCount; i++) {
+            latch.countUp();
+        }
+
+        for (int i = 0; i < threadCount; i++) {
+            threads[i].join();
+        }
+
+        assertEquals(0, latch.getCount());
+
+        for (boolean notOk : interruptedExceptionOccurred) {
+            assertFalse(notOk);
+        }
     }
 }
