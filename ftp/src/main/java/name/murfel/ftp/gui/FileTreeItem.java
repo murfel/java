@@ -1,5 +1,6 @@
 package name.murfel.ftp.gui;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -62,7 +63,7 @@ public class FileTreeItem extends TreeItem<ServerEntity> {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Couldn't get list of files: " + e.getMessage(), ButtonType.OK);
                 alert.showAndWait();
                 if (isRootTreeItem) {
-                    FtpGuiClient.uiController.showConnectionMenu();
+                    Platform.runLater(() -> FtpGuiClient.uiController.showConnectionMenu());
                 }
             }
             return children;

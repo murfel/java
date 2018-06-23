@@ -25,6 +25,8 @@ public class UIController {
 
         showConnectionMenu();
         primaryStage.setTitle("Ftp Client");
+        primaryStage.setMinWidth(600);
+        primaryStage.setMinHeight(400);
         primaryStage.show();
     }
 

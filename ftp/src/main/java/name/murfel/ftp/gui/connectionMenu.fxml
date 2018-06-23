@@ -5,7 +5,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <GridPane xmlns:fx="http://javafx.com/fxml"
-          fx:controller="name.murfel.ftp.gui.ConnectionMenu" alignment="center" hgap="10" vgap="10">
+          fx:controller="name.murfel.ftp.gui.ConnectionMenu" alignment="center" hgap="10" vgap="10"
+          minWidth="600" minHeight="400">
     <padding>
         <Insets top="25" right="25" bottom="10" left="25"/>
     </padding>

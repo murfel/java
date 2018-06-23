@@ -6,6 +6,8 @@ import javafx.stage.Stage;
 /**
  * A minimal FTP GUI Client which connects to a specified server, lazily shows the file hierarchy (e.g. the files
  * lists are downloaded only when a user requests it), and allows to save a file from the server to a preferred location.
+ *
+ * To run the server for this client, cd to target/classes/ and run {@code java name.murfel.ftp.FtpServer portNumber}.
  */
 public class FtpGuiClient extends Application {
     public static UIController uiController;
