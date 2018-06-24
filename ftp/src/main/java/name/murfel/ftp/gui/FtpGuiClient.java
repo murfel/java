@@ -11,9 +11,9 @@ import javafx.stage.Stage;
  */
 public class FtpGuiClient extends Application {
     public static UIController uiController;
-    public static String host = "noxi";
-    public static int port = 44444;
-    public static String dir = "/home";
+    public static String host;
+    public static int port;
+    public static String dir;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
