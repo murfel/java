@@ -16,8 +16,8 @@ import java.io.IOException;
 public class UIController {
     private Stage primaryStage;
 
-    private Scene connectionMenu = new Scene(FXMLLoader.load(getClass().getResource("connectionMenu.fxml")));
-    private Scene treeViewScene = new Scene(FXMLLoader.load(getClass().getResource("treeView.fxml")));
+    private Scene connectionMenu = new Scene(FXMLLoader.load(getClass().getResource("/connectionMenu.fxml")));
+    private Scene treeViewScene = new Scene(FXMLLoader.load(getClass().getResource("/treeView.fxml")));
     private TreeView<ServerEntity> treeView = (TreeView<ServerEntity>) treeViewScene.lookup("#treeView");
 
     public UIController(Stage primaryStage) throws IOException {
