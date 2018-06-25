@@ -38,7 +38,7 @@ public class FtpClientServerTest {
             Logger.getAnonymousLogger().info("ServerThread: reached end");
         });
 
-        List<ServerFile> actual = new LinkedList<>();
+        List<ServerEntity> actual = new LinkedList<>();
         Boolean[] ioExceptionHappened = {false};
 
         Thread clientThread = new Thread(() -> {
@@ -63,17 +63,17 @@ public class FtpClientServerTest {
 
         assertFalse(ioExceptionHappened[0]);
 
-        List<ServerFile> expected = Arrays.asList(
-                new ServerFile("dir1", true),
-                new ServerFile("file1", false),
-                new ServerFile("file2", false));
+        List<ServerEntity> expected = Arrays.asList(
+                new ServerEntity("dir1", true),
+                new ServerEntity("file1", false),
+                new ServerEntity("file2", false));
 
-        expected.sort(Comparator.comparing(ServerFile::getName).thenComparing(ServerFile::getIsDirectory));
-        actual.sort(Comparator.comparing(ServerFile::getName).thenComparing(ServerFile::getIsDirectory));
+        expected.sort(Comparator.comparing(ServerEntity::getName).thenComparing(ServerEntity::getIsDirectory));
+        actual.sort(Comparator.comparing(ServerEntity::getName).thenComparing(ServerEntity::getIsDirectory));
 
         for (int i = 0; i < expected.size(); i++) {
-            ServerFile expectedFile = expected.get(i);
-            ServerFile actualFile = actual.get(i);
+            ServerEntity expectedFile = expected.get(i);
+            ServerEntity actualFile = actual.get(i);
             assertEquals(expectedFile.name, actualFile.name);
             assertEquals(expectedFile.is_directory, actualFile.is_directory);
         }

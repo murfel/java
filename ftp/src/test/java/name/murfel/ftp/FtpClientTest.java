@@ -30,10 +30,10 @@ public class FtpClientTest {
         DataOutputStream dos = new DataOutputStream(bos);
 
         int expectedSize = 3;
-        List<ServerFile> expected = new LinkedList<>();
-        expected.add(new ServerFile("kek cheburek", true));
-        expected.add(new ServerFile("meow", false));
-        expected.add(new ServerFile("meow", true));
+        List<ServerEntity> expected = new LinkedList<>();
+        expected.add(new ServerEntity("kek cheburek", true));
+        expected.add(new ServerEntity("meow", false));
+        expected.add(new ServerEntity("meow", true));
 
         dos.writeInt(expectedSize);
         for (int i = 0; i < expectedSize; i++) {
@@ -42,17 +42,17 @@ public class FtpClientTest {
         }
         dos.flush();
 
-        List<ServerFile> actual = FtpClient.receiveListResponse(
+        List<ServerEntity> actual = FtpClient.receiveListResponse(
                 new DataInputStream(new ByteArrayInputStream(bos.toByteArray())));
 
         assertEquals(expected.size(), actual.size());
 
-        expected.sort(Comparator.comparing(ServerFile::getName).thenComparing(ServerFile::getIsDirectory));
-        actual.sort(Comparator.comparing(ServerFile::getName).thenComparing(ServerFile::getIsDirectory));
+        expected.sort(Comparator.comparing(ServerEntity::getName).thenComparing(ServerEntity::getIsDirectory));
+        actual.sort(Comparator.comparing(ServerEntity::getName).thenComparing(ServerEntity::getIsDirectory));
 
         for (int i = 0; i < expected.size(); i++) {
-            ServerFile expectedFile = expected.get(i);
-            ServerFile actualFile = actual.get(i);
+            ServerEntity expectedFile = expected.get(i);
+            ServerEntity actualFile = actual.get(i);
             assertEquals(expectedFile.name, actualFile.name);
             assertEquals(expectedFile.is_directory, actualFile.is_directory);
         }
